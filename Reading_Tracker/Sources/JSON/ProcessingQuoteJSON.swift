@@ -11,7 +11,8 @@ import UIKit
 final class ProcessingQuoteJSON {
     static let shared = ProcessingQuoteJSON()
 
-    let quotesPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Quotes.json")
+    let quotesPath = FileManager.default.urls(for: .documentDirectory,
+                    in: .userDomainMask).first!.appendingPathComponent("Quotes.json")
 
     var quotes: [Quote] = []
 

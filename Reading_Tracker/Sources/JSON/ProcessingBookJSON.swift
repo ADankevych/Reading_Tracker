@@ -11,7 +11,8 @@ import UIKit
 final class ProcessingBookJSON {
     static let shared = ProcessingBookJSON()
 
-    let booksPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Books.json")
+    let booksPath = FileManager.default.urls(for: .documentDirectory,
+                    in: .userDomainMask).first!.appendingPathComponent("Books.json")
 
     var books = [
 // Note: first 5 - top about programming
@@ -39,7 +40,7 @@ final class ProcessingBookJSON {
         Book(title: "Harry Potter and the Sorcerer’s Stone",
              author: "J.K. Rowling",
              genre: "Fantasy, Fiction",
-             img: "Harrry_Potter"),
+             img: "Harry_Potter"),
         Book(title: "Good Omens",
              author: "Terry Pratchett, Neil Gaiman",
              genre: "Fantasy, Fiction, Hummor",

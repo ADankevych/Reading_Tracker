@@ -30,7 +30,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         viewControllers = [homeVC, favouriteVC, profileVC]
         customizeTabBarAppearance()
     }
-    
+
     private func customizeTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = .lightGreen
@@ -40,7 +40,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
             .foregroundColor: UIColor.darkGreen,
             .font: UIFont.systemFont(ofSize: 14)
         ]
-        
+
         appearance.stackedLayoutAppearance.selected.iconColor = .black
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
             .foregroundColor: UIColor.black,
@@ -50,7 +50,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         if #available(iOS 15.0, *) {
             tabBar.scrollEdgeAppearance = appearance
         }
-        
+
     }
 }
 
@@ -58,7 +58,7 @@ extension UIColor {
     static var darkGreen: UIColor {
         return UIColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
     }
-    
+
     static var lightGreen: UIColor {
         return UIColor(red: 166/255, green: 215/255, blue: 106/255, alpha: 1.0)
     }
@@ -79,7 +79,7 @@ struct MainTabBarControllerPreview: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> MainTabBarController {
         return MainTabBarController()
     }
-    
+
     func updateUIViewController(_ uiViewController: MainTabBarController, context: Context) {
         // No-op
     }

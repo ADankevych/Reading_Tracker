@@ -35,7 +35,7 @@ final class ReadingTrackerTests: XCTestCase {
                 Book(title: "Harry Potter and the Sorcerer’s Stone",
                      author: "J.K. Rowling",
                      genre: "Fantasy, Fiction",
-                     img: "Harrry_Potter"),
+                     img: "Harry_Potter"),
                 Book(title: "Good Omens",
                      author: "Terry Pratchett, Neil Gaiman",
                      genre: "Fantasy, Fiction, Hummor",
