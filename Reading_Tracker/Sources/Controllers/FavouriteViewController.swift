@@ -35,13 +35,21 @@ class FavouriteViewController: UIViewController {
 
         quotesCollectionView = createCollectionView()
 
-        let stackView = UIStackView(arrangedSubviews:
-                [favoriteBooksLabel,
-                 booksCollectionView,
-                 savedQuotesLabel,
-                 quotesCollectionView]
-        )
+        let addQuoteButton = UIButton(type: .system)
+        addQuoteButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        addQuoteButton.tintColor = .black
+        addQuoteButton.addTarget(self, action: #selector(didTapAddQuoteButton), for: .touchUpInside)
+        let addQuoteAndQuotesStackView = UIStackView(arrangedSubviews: [addQuoteButton, quotesCollectionView])
+        addQuoteAndQuotesStackView.axis = .horizontal
+        addQuoteAndQuotesStackView.spacing = 16
+        addQuoteAndQuotesStackView.alignment = .center
 
+        let stackView = UIStackView(arrangedSubviews: [
+            favoriteBooksLabel,
+            booksCollectionView,
+            savedQuotesLabel,
+            addQuoteAndQuotesStackView
+        ])
         stackView.axis = .vertical
         stackView.spacing = 20
         stackView.alignment = .fill
@@ -55,9 +63,17 @@ class FavouriteViewController: UIViewController {
             $0.bottom.lessThanOrEqualTo(view).offset(-20)
         }
 
-        booksCollectionView.snp.makeConstraints { $0.height.equalTo(250) }
+        booksCollectionView.snp.makeConstraints {
+            $0.height.equalTo(250)
+        }
 
-        quotesCollectionView.snp.makeConstraints { $0.height.equalTo(150) }
+        quotesCollectionView.snp.makeConstraints {
+            $0.height.equalTo(150)
+        }
+
+        addQuoteButton.snp.makeConstraints {
+            $0.width.height.equalTo(40)
+        }
     }
 
     private func createCollectionView() -> UICollectionView {
