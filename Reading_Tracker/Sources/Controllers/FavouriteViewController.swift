@@ -92,6 +92,49 @@ class FavouriteViewController: UIViewController {
 
         return collectionView
     }
+    
+    @objc private func didTapAddQuoteButton() {
+        let alert = UIAlertController(
+            title: "Add New Quote",
+            message: "Enter the quote and its book",
+            preferredStyle: .alert
+        )
+
+        alert.addTextField { textField in
+            textField.placeholder = "Quote Text"
+        }
+
+        alert.addTextField { textField in
+            textField.placeholder = "Book Title"
+        }
+
+        alert.addAction(UIAlertAction(title: "Add", style: .default) { _ in
+            guard
+                let quoteText = alert.textFields?[0].text,
+                let bookTitle = alert.textFields?[1].text,
+                !quoteText.isEmpty,
+                !bookTitle.isEmpty
+            else {
+                return
+            }
+
+            let newQuote = Quote(title: bookTitle, quote: quoteText)
+
+            do {
+                try ProcessingQuoteJSON.shared.addQuote(quote: newQuote)
+                print("\(newQuote.title), \(newQuote.quote)")
+                self.quotesCollectionView.reloadData()
+            } catch {
+                let errorAlert = UIAlertController(title: "Error", message: "Failed to add quote: \(error.localizedDescription)", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(errorAlert, animated: true)
+            }
+        })
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+
+        present(alert, animated: true)
+    }
 
     private func setupBackground() {
         let gradientLayer = CAGradientLayer()
