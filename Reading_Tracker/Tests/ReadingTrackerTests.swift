@@ -5,7 +5,7 @@ import XCTest
 final class ReadingTrackerTests: XCTestCase {
 
     func testWriteBooks() throws {
-        XCTAssertNoThrow(try ProcessingJSON().writeBooks())
+        XCTAssertNoThrow(try ProcessingBookJSON().writeBooks())
     }
 
     func testParseBooks() throws {
@@ -54,7 +54,7 @@ final class ReadingTrackerTests: XCTestCase {
                      img: "Eat_Pray_Love")
             ]
 
-        let result = try ProcessingJSON().parseBooks()
+        let result = try ProcessingBookJSON().parseBooks()
         XCTAssertEqual(result, books)
     }
 

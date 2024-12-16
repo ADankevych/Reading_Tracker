@@ -1,6 +1,6 @@
 //
-//  ParsingJSON.swift
-//  FinalProject
+//  ProcessingBookJSON.swift
+//  Reading_Tracker
 //
 //  Created by Данькевич Анастасія on 14.12.2024.
 //
@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-final class ProcessingJSON {
+final class ProcessingBookJSON {
+
     let booksPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Books.json")
-    let quotePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Quotes.json")
 
     var books = [
 // Note: first 5 - top about programming
