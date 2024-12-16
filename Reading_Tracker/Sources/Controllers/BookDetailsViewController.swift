@@ -153,6 +153,9 @@ class BookDetailsViewController: UIViewController {
     }
     
     @objc private func starButtonTapped(_ sender: UIButton) {
+        let selectedGrade = sender.tag
+        book.grade = selectedGrade
+        print("Grade set to \(selectedGrade) stars")
     }
     
     private func setupBackground() {
