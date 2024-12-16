@@ -76,4 +76,26 @@ final class ProcessingJSON {
         self.books.append(userBook)
         try writeBooks()
     }
+
+    func favouriteBooks() throws -> [Book] {
+        return self.books.filter { $0.like }
+    }
+
+    func likeBook(book: Book) throws {
+        if let position = self.books.firstIndex(of: book) {
+            self.books[position].like = true
+            try writeBooks()
+        }
+    }
+
+    func gradeBook(book: Book, grade: Int) throws {
+        if let position = self.books.firstIndex(of: book) {
+            self.books[position].grade = grade
+            try writeBooks()
+        }
+    }
+
+    func amountOfBooks() -> Int {
+        return self.books.count
+    }
 }
