@@ -58,4 +58,13 @@ final class ReadingTrackerTests: XCTestCase {
         XCTAssertEqual(result, books)
     }
 
+    func testAddQuote() throws {
+        let empty: [Quote] = []
+        let result: [Quote] = try ProcessingQuoteJSON().parseQuotes()
+        XCTAssertEqual(result, empty)
+        
+        let quote = [Quote(title: "1", quote: "Hello")]
+        try ProcessingQuoteJSON.shared.addQuote(quote: Quote(title: "1", quote: "Hello"))
+        XCTAssertEqual(quote, ProcessingQuoteJSON.shared.quotes)
+    }
 }

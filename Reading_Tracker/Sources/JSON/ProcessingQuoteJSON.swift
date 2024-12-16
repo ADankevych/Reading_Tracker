@@ -17,6 +17,11 @@ final class ProcessingQuoteJSON {
     var quotes: [Quote] = []
 
     func parseQuotes() throws -> [Quote] {
+        if !FileManager.default.fileExists(atPath: quotesPath.path) {
+            let initialContent = Data("[]".utf8)
+            try initialContent.write(to: quotesPath)
+        }
+
         let contents = try Data(contentsOf: quotesPath)
         let quotes = try JSONDecoder().decode([Quote].self, from: contents)
 
@@ -24,6 +29,11 @@ final class ProcessingQuoteJSON {
     }
 
     func writeQuotes() throws {
+        if !FileManager.default.fileExists(atPath: quotesPath.path) {
+            let initialContent = Data("[]".utf8)
+            try initialContent.write(to: quotesPath)
+        }
+
         let contents = try JSONEncoder().encode(self.quotes)
         try contents.write(to: quotesPath)
 //        print("Path \(quotesPath)")
