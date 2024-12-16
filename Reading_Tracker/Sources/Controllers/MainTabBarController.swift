@@ -8,25 +8,21 @@
 import UIKit
 import SwiftUI
 
-class HomeVC: UIViewController {}
-class FavouriteVC: UIViewController {}
-class ProfileVC: UIViewController {}
-
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        let homeVC = HomeVC()
+        let homeVC = HomeViewController()
         let homeIcon = UIImage(systemName: "house")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: homeIcon, tag: 0)
 
-        let favouriteVC = FavouriteVC()
+        let favouriteVC = FavouriteViewController()
         let favIcon = UIImage(systemName: "heart")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
         favouriteVC.tabBarItem = UITabBarItem(title: "Favourite", image: favIcon, tag: 1)
 
-        let profileVC = ProfileVC()
+        let profileVC = ProfileViewController()
         let profileIcon = UIImage(systemName: "person.crop.circle")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: profileIcon, tag: 2)
