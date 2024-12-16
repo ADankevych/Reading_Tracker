@@ -92,7 +92,7 @@ class FavouriteViewController: UIViewController {
 
         return collectionView
     }
-    
+
     @objc private func didTapAddQuoteButton() {
         let alert = UIAlertController(
             title: "Add New Quote",
@@ -125,7 +125,8 @@ class FavouriteViewController: UIViewController {
                 print("\(newQuote.title), \(newQuote.quote)")
                 self.quotesCollectionView.reloadData()
             } catch {
-                let errorAlert = UIAlertController(title: "Error", message: "Failed to add quote: \(error.localizedDescription)", preferredStyle: .alert)
+                let errorAlert = UIAlertController(title: "Error",
+                                message: "Failed to add quote: \(error.localizedDescription)", preferredStyle: .alert)
                 errorAlert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(errorAlert, animated: true)
             }
