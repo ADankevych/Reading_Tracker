@@ -3,11 +3,11 @@ import XCTest
 @testable import Reading_Tracker
 
 final class ReadingTrackerTests: XCTestCase {
+
     func testWriteBooks() throws {
-        let result = try ParsingJSON().writeBooks()
-        XCTAssertEqual(result, "Succesfully")
+        XCTAssertNoThrow(try ProcessingJSON().writeBooks())
     }
-    
+
     func testParseBooks() throws {
         let books = [
         // Note: first 5 - top about programming
@@ -54,7 +54,8 @@ final class ReadingTrackerTests: XCTestCase {
                      img: "Eat_Pray_Love")
             ]
 
-        let result = try ParsingJSON().parseBooks()
+        let result = try ProcessingJSON().parseBooks()
         XCTAssertEqual(result, books)
     }
+
 }
