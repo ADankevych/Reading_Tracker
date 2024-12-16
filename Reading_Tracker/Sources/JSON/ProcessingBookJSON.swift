@@ -93,9 +93,16 @@ final class ProcessingBookJSON {
         return self.books.filter { $0.like == true}
     }
 
-    func likeBook(book: Book) throws {
+    func likedBook(book: Book) throws {
         if let position = self.books.firstIndex(of: book) {
             self.books[position].like = true
+            try writeBooks()
+        }
+    }
+
+    func dislikedBook(book: Book) throws {
+        if let position = self.books.firstIndex(of: book) {
+            self.books[position].like = false
             try writeBooks()
         }
     }
