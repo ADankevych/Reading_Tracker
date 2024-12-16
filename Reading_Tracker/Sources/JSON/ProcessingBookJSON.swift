@@ -78,8 +78,8 @@ final class ProcessingBookJSON {
         try writeBooks()
     }
 
-    func favouriteBooks() throws -> [Book] {
-        return self.books.filter { $0.like }
+    func favouriteBooks() -> [Book] {
+        return self.books.filter { $0.like == true}
     }
 
     func likeBook(book: Book) throws {
@@ -96,7 +96,7 @@ final class ProcessingBookJSON {
         }
     }
 
-    func amountOfBooks() -> Int {
-        return self.books.count
+    func gradedBooks() -> [Book] {
+        return self.books.filter { $0.grade != nil }
     }
 }
