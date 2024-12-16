@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 final class ProcessingBookJSON {
+    static let shared = ProcessingBookJSON()
 
     let booksPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("Books.json")
 
