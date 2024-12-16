@@ -105,9 +105,22 @@ class BookDetailsViewController: UIViewController {
         }
 
         if let grade = book.grade {
-            // displayGrade(grade)
+            displayGrade(grade)
         } else {
             // createStarButtons()
+        }
+    }
+    
+    private func displayGrade(_ grade: Int) {
+        let gradeLabel = UILabel()
+        gradeLabel.text = String(repeating: "⭐ ", count: grade)
+        gradeLabel.font = .systemFont(ofSize: 40)
+        gradeLabel.textColor = .yellow
+        view.addSubview(gradeLabel)
+        
+        gradeLabel.snp.makeConstraints {
+            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(70)
+            $0.leading.equalTo(commentsTitleLabel)
         }
     }
     
