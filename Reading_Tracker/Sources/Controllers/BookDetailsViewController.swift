@@ -107,7 +107,7 @@ class BookDetailsViewController: UIViewController {
         if let grade = book.grade {
             displayGrade(grade)
         } else {
-            // createStarButtons()
+            createStarButtons()
         }
     }
     
@@ -122,6 +122,37 @@ class BookDetailsViewController: UIViewController {
             $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(70)
             $0.leading.equalTo(commentsTitleLabel)
         }
+    }
+    
+    private func createStarButtons() {
+        let starCount = 5
+        var starButtons: [UIButton] = []
+
+        for index in 0..<starCount {
+            let starButton = UIButton()
+            
+            let normalStarImage = UIImage(systemName: "star")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+            let selectedStarImage = UIImage(systemName: "star.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+            starButton.setImage(normalStarImage, for: .normal)
+            starButton.setImage(selectedStarImage, for: .selected)
+            starButton.tintColor = .yellow
+            
+            starButton.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
+            starButton.tag = index + 1
+            starButtons.append(starButton)
+            view.addSubview(starButton)
+        }
+        
+        for (index, button) in starButtons.enumerated() {
+            button.snp.makeConstraints { make in
+                make.top.equalTo(commentsTitleLabel.snp.bottom).offset(70)
+                make.leading.equalTo(view).offset(16 + (index * 50))
+                make.width.height.equalTo(40)
+            }
+        }
+    }
+    
+    @objc private func starButtonTapped(_ sender: UIButton) {
     }
     
     private func setupBackground() {
