@@ -7,15 +7,27 @@ let project = Project(
             name: "Reading_Tracker",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.Reading-Tracker",
+            bundleId: "io.tuist.ReadingTracker",
             infoPlist: .extendingDefault(
                 with: [
+                    "UIApplicationSceneManifest": [
+                        "UIApplicationSupportsMultipleScenes": false,
+                        "UISceneConfigurations": [
+                            "UIWindowSceneSessionRoleApplication": [
+                                [
+                                    "UISceneConfigurationName": "Default Configuration",
+                                    "UISceneDelegateClassName": "Reading_Tracker.SceneDelegate"
+                                ]
+                            ]
+                        ]
+                    ],
                     "UILaunchScreen": [
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
                 ]
             ),
+
             sources: ["Reading_Tracker/Sources/**"],
             resources: ["Reading_Tracker/Resources/**"],
             dependencies: []
