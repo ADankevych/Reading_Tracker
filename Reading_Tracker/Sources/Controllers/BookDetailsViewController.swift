@@ -210,6 +210,14 @@ class BookDetailsViewController: UIViewController {
         }
     }
     
+    private func updateLikeButtonAppearance() {
+        let imageName = isLiked ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+        likeButton.setImage(image, for: .normal)
+        likeButton.tintColor = isLiked ? .red : .black
+    }
+
+    
     private func setupBackground() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
