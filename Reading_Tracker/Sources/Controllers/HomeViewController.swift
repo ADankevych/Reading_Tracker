@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = true
         scrollView.alwaysBounceVertical = true
         return scrollView
-   }()
+    }()
    
     private let contentView = UIView()
     private var addMyBooksCollectionView: UICollectionView!
@@ -161,7 +161,6 @@ class HomeViewController: UIViewController {
            $0.width.height.equalTo(30)
        }
    }
-
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
