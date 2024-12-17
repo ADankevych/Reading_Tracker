@@ -192,36 +192,3 @@ extension AddBookViewController: UITextViewDelegate {
         }
     }
 }
-
-#if DEBUG
-import SwiftUI
-
-struct AddBookModal_Previews: PreviewProvider {
-    
-    static func makeAddBook() -> AddBookViewController {
-        return AddBookViewController()
-    }
-
-    static var previews: some View {
-        UIViewControllerPreview {
-            let controller = makeAddBook()
-            return controller
-        }
-    }
-}
-
-struct UIViewControllerPreview<ViewController: UIViewController>: UIViewControllerRepresentable {
-    let viewController: ViewController
-
-    init(_ builder: @escaping () -> ViewController) {
-        viewController = builder()
-    }
-
-    func makeUIViewController(context: Context) -> ViewController {
-        viewController
-    }
-
-    func updateUIViewController(_ uiViewController: ViewController, context: Context) {}
-}
-
-#endif

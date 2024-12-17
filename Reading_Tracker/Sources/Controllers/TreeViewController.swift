@@ -163,28 +163,3 @@ class TreeViewController: UIViewController {
         view.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
-
-#if DEBUG
-import SwiftUI
-
-@available(iOS 13.0, *)
-struct TreeViewController_Preview: PreviewProvider {
-    static var previews: some View {
-        TreeViewControllerRepresentable()
-            .ignoresSafeArea()
-            .previewLayout(.sizeThatFits)
-    }
-}
-
-@available(iOS 13.0, *)
-struct TreeViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> TreeViewController {
-        let treeViewController = TreeViewController()
-        return treeViewController
-    }
-
-    func updateUIViewController(_ uiViewController: TreeViewController, context: Context) {
-        // No-op
-    }
-}
-#endif
