@@ -9,7 +9,6 @@ import UIKit
 import SwiftUI
 import SnapKit
 
-class TreeViewController: UIViewController {}
 
 class ProfileViewController: UIViewController {
 
