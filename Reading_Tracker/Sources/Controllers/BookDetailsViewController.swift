@@ -158,10 +158,10 @@ class BookDetailsViewController: UIViewController {
             view.addSubview(starButton)
         }
         for (index, button) in starButtons.enumerated() {
-            button.snp.makeConstraints { make in
-                make.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
-                make.leading.equalTo(view).offset(16 + (index * 50))
-                make.width.height.equalTo(40)
+            button.snp.makeConstraints {
+                $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
+                $0.leading.equalTo(commentsTitleLabel).offset(5 + (index * 50))
+                $0.width.height.equalTo(40)
             }
         }
     }
@@ -169,7 +169,14 @@ class BookDetailsViewController: UIViewController {
     @objc private func starButtonTapped(_ sender: UIButton) {
         let selectedGrade = sender.tag
         book.grade = selectedGrade
+        updateStarButtons()
         print("Grade set to \(selectedGrade) stars")
+    }
+    
+    private func updateStarButtons() {
+        for (index, button) in starButtons.enumerated() {
+            button.isSelected = index < book.grade!
+        }
     }
     
     private func setupBackground() {
