@@ -155,7 +155,7 @@ class BookDetailsViewController: UIViewController {
 
     private func displayGrade(_ grade: Int) {
         let gradeLabel = UILabel()
-        gradeLabel.text = String(repeating: "⭐ ", count: grade)
+        gradeLabel.text = String(repeating: "⭐", count: grade)
         gradeLabel.font = .systemFont(ofSize: 40)
         gradeLabel.textColor = .yellow
         view.addSubview(gradeLabel)
