@@ -11,96 +11,75 @@ import SnapKit
 class BookDetailsViewController: UIViewController {
     
     var book: Book
-    private var commentsTitleLabel = UILabel()
-    
+
+    private let bookImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+
+    private let bookNameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 35)
+        label.textColor = .white
+        return label
+    }()
+
+    private let authorLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 24)
+        label.textColor = .white
+        return label
+    }()
+
+    private let genreLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 18)
+        label.textColor = .white
+        return label
+    }()
+
+    private let commentsTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18)
+        label.textColor = .white
+        return label
+    }()
+
+    private let commentsTextLabel: UILabel = {
+        let label = UILabel()
+        label.font = .italicSystemFont(ofSize: 14)
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        return label
+    }()
+
+    private var starButtons: [UIButton] = []
+
     init(book: Book) {
         self.book = book
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var starButtons: [UIButton] = []
-    
     override func viewDidLoad() {
-        super.viewDidLoad()
-        setupBackground()
-        setupBookDetailsView()
-    }
+       super.viewDidLoad()
+       setupBackground()
+       setupView()
+       setupLayout()
+   }
     
-    private func setupBookDetailsView() {
-        let bookImageView = UIImageView()
-        bookImageView.image = UIImage(named: book.img)
-        bookImageView.contentMode = .scaleAspectFit
+    private func setupView() {
         view.addSubview(bookImageView)
-        
-        let bookNameLabel = UILabel()
-        bookNameLabel.text = book.title
-        bookNameLabel.font = .boldSystemFont(ofSize: 35)
-        bookNameLabel.textColor = .white
         view.addSubview(bookNameLabel)
-        
-        let authorLabel = UILabel()
-        authorLabel.text = book.author
-        authorLabel.font = .systemFont(ofSize: 24)
-        authorLabel.textColor = .white
         view.addSubview(authorLabel)
-        
-        let genreLabel = UILabel()
-        genreLabel.text = book.genre
-        genreLabel.font = .systemFont(ofSize: 18)
-        genreLabel.textColor = .white
         view.addSubview(genreLabel)
-        
-        commentsTitleLabel.text = "Comments: "
-        commentsTitleLabel.font = .boldSystemFont(ofSize: 18)
-        commentsTitleLabel.textColor = .white
         view.addSubview(commentsTitleLabel)
-        
-        let commentsTextLabel = UILabel()
-        commentsTextLabel.text = book.extraComments ?? "No extra comments"
-        commentsTextLabel.font = .italicSystemFont(ofSize: 14)
-        commentsTextLabel.textColor = .white
-        commentsTextLabel.numberOfLines = 0
-        commentsTextLabel.lineBreakMode = .byWordWrapping
-
         view.addSubview(commentsTextLabel)
-        
-        bookImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(130)
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(350)
-        }
-
-        bookNameLabel.snp.makeConstraints {
-            $0.top.equalTo(bookImageView.snp.bottom).offset(10)
-            $0.centerX.equalTo(bookImageView)
-            
-        }
-
-        authorLabel.snp.makeConstraints {
-            $0.bottom.equalTo(bookImageView.snp.top).offset(-20)
-            $0.centerX.equalTo(bookImageView)
-        }
-
-        genreLabel.snp.makeConstraints {
-            $0.top.equalTo(bookNameLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(bookImageView)
-        }
-
-        commentsTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(genreLabel.snp.bottom).offset(20)
-            $0.leading.equalTo(genreLabel)
-        }
-        
-        commentsTextLabel.snp.makeConstraints {
-            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(5)
-            $0.leading.equalTo(genreLabel)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.height.lessThanOrEqualTo(150)
-        }
 
         if let grade = book.grade {
             displayGrade(grade)
@@ -108,14 +87,54 @@ class BookDetailsViewController: UIViewController {
             createStarButtons()
         }
     }
-    
+
+    private func setupLayout() {
+        bookImageView.image = UIImage(named: book.img)
+        bookImageView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(130)
+            $0.centerX.equalToSuperview()
+            $0.width.height.equalTo(350)
+        }
+        
+        bookNameLabel.text = book.title
+        bookNameLabel.snp.makeConstraints {
+            $0.top.equalTo(bookImageView.snp.bottom).offset(10)
+            $0.centerX.equalTo(bookImageView)
+        }
+
+        authorLabel.text = book.author
+        authorLabel.snp.makeConstraints {
+            $0.bottom.equalTo(bookImageView.snp.top).offset(-20)
+            $0.centerX.equalTo(bookImageView)
+        }
+
+        genreLabel.text = book.genre
+        genreLabel.snp.makeConstraints {
+            $0.top.equalTo(bookNameLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(bookImageView)
+        }
+
+        commentsTitleLabel.text = "Comments: "
+        commentsTitleLabel.snp.makeConstraints {
+            $0.top.equalTo(genreLabel.snp.bottom).offset(20)
+            $0.leading.equalTo(genreLabel)
+        }
+
+        commentsTextLabel.text = book.extraComments ?? "No extra comments"
+        commentsTextLabel.snp.makeConstraints {
+            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(genreLabel)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.height.lessThanOrEqualTo(150)
+        }
+    }
+
     private func displayGrade(_ grade: Int) {
         let gradeLabel = UILabel()
         gradeLabel.text = String(repeating: "⭐ ", count: grade)
         gradeLabel.font = .systemFont(ofSize: 40)
         gradeLabel.textColor = .yellow
         view.addSubview(gradeLabel)
-        
         gradeLabel.snp.makeConstraints {
             $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
             $0.leading.equalTo(commentsTitleLabel)
@@ -124,8 +143,6 @@ class BookDetailsViewController: UIViewController {
     
     private func createStarButtons() {
         let starCount = 5
-        var starButtons: [UIButton] = []
-
         for index in 0..<starCount {
             let starButton = UIButton()
             
@@ -140,7 +157,6 @@ class BookDetailsViewController: UIViewController {
             starButtons.append(starButton)
             view.addSubview(starButton)
         }
-        
         for (index, button) in starButtons.enumerated() {
             button.snp.makeConstraints { make in
                 make.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
@@ -149,7 +165,7 @@ class BookDetailsViewController: UIViewController {
             }
         }
     }
-    
+
     @objc private func starButtonTapped(_ sender: UIButton) {
         let selectedGrade = sender.tag
         book.grade = selectedGrade
@@ -158,17 +174,13 @@ class BookDetailsViewController: UIViewController {
     
     private func setupBackground() {
         let gradientLayer = CAGradientLayer()
-
         gradientLayer.frame = view.bounds
-
         gradientLayer.colors = [
             UIColor(red: 0.66, green: 0.88, blue: 0.44, alpha: 1.0).cgColor,
             UIColor(red: 0.22, green: 0.44, blue: 0.11, alpha: 1.0).cgColor
         ]
-
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-
         view.layer.insertSublayer(gradientLayer, at: 0)
     }
     
