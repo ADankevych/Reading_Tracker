@@ -26,14 +26,14 @@ class LaunchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTitleLable()
+        setupGradient()
         setupViews()
         setupLayers()
         createHillAnimation()
         createTreeAndCrownAnimations()
     }
 
-    private func setupTitleLable() {
+    private func setupGradient() {
         gradientLayer.frame = view.bounds
 
         gradientLayer.colors = [
