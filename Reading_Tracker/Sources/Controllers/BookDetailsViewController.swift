@@ -23,7 +23,7 @@ class BookDetailsViewController: UIViewController {
     private let bookNameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 28)
-        label.textColor = .white
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -33,7 +33,7 @@ class BookDetailsViewController: UIViewController {
     private let authorLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20)
-        label.textColor = .white
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -43,21 +43,23 @@ class BookDetailsViewController: UIViewController {
     private let genreLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .black
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
     private let commentsTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .black
         return label
     }()
 
     private let commentsTextLabel: UILabel = {
         let label = UILabel()
         label.font = .italicSystemFont(ofSize: 14)
-        label.textColor = .white
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
