@@ -11,7 +11,7 @@ import SnapKit
 class AddBookViewController: UIViewController {
 
     weak var delegate: AddBookDelegate?
-    
+
     private let titleTextField = UITextField()
     private let authorTextField = UITextField()
     private let genreTextField = UITextField()
@@ -19,7 +19,7 @@ class AddBookViewController: UIViewController {
     private var rating: Int = 0
     private var starButtons: [UIButton] = []
     private let saveButton = UIButton(type: .system)
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Add New Book"
@@ -28,7 +28,7 @@ class AddBookViewController: UIViewController {
         label.textColor = .darkGreen
         return label
     }()
-    
+
     private let commentsPlaceholderLabel: UILabel = {
         let label = UILabel()
         label.text = "Extra comments"
@@ -42,7 +42,7 @@ class AddBookViewController: UIViewController {
         setupView()
         setupLayout()
     }
-    
+
     private func setupView() {
         view.backgroundColor = .lightGreen
         
@@ -127,8 +127,7 @@ class AddBookViewController: UIViewController {
             $0.top.equalTo(commentsTextView.snp.bottom).offset(20)
             $0.centerX.equalToSuperview()
         }
-        
-        
+
     }
     private func createStarButtons() {
         let starCount = 5
@@ -136,8 +135,10 @@ class AddBookViewController: UIViewController {
         for index in 0..<starCount {
             let starButton = UIButton()
             
-            let normalStarImage = UIImage(systemName: "star")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
-            let selectedStarImage = UIImage(systemName: "star.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+            let normalStarImage = UIImage(systemName: "star")?.withConfiguration(
+                UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+            let selectedStarImage = UIImage(systemName: "star.fill")?.withConfiguration(
+                UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
             starButton.setImage(normalStarImage, for: .normal)
             starButton.setImage(selectedStarImage, for: .selected)
             starButton.tintColor = .yellow
@@ -164,7 +165,7 @@ class AddBookViewController: UIViewController {
         guard let title = titleTextField.text, !title.isEmpty,
               let author = authorTextField.text, !author.isEmpty,
               let genre = genreTextField.text, !genre.isEmpty else {
-            // TODO: handle invalid input
+
             return
         }
         
