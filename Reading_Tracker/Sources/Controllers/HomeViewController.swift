@@ -155,6 +155,7 @@ class HomeViewController: UIViewController {
            $0.width.height.equalTo(30)
        }
    }
+    
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -327,4 +328,21 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
        return cell
    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Cell tapped at index: \(indexPath)")
+        
+        var selectedBook: Book
+        if collectionView == addMyBooksCollectionView {
+            selectedBook = ProcessingBookJSON.shared.gradedBooks()[indexPath.item]
+        } else if collectionView == booksOfMonthCollectionView {
+            selectedBook = ProcessingBookJSON.shared.books[indexPath.item + 5]
+        } else {
+            selectedBook = ProcessingBookJSON.shared.books[indexPath.item]
+        }
+        
+        let bookDetailsVC = BookDetailsViewController(book: selectedBook)
+        navigationController?.pushViewController(bookDetailsVC, animated: true)
+    }
+
 }

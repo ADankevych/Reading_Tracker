@@ -9,12 +9,15 @@ import UIKit
 import SwiftUI
 
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("MainTabBarController loaded!")
         self.delegate = self
         let homeVC = HomeViewController()
         let homeIcon = UIImage(systemName: "house")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
+        let homeNavController = UINavigationController(rootViewController: homeVC)
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: homeIcon, tag: 0)
 
         let favouriteVC = FavouriteViewController()
@@ -27,8 +30,18 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
         profileVC.tabBarItem = UITabBarItem(title: "Profile", image: profileIcon, tag: 2)
 
-        viewControllers = [homeVC, favouriteVC, profileVC]
+        viewControllers = [homeNavController, favouriteVC, profileVC]
         customizeTabBarAppearance()
+
+        tabBar.setNeedsLayout()
+        tabBar.layoutIfNeeded()
+
+        if let tabBarFrame = tabBar.superview?.frame {
+            var newFrame = tabBar.frame
+            newFrame.origin.y = tabBarFrame.height - 200
+            newFrame.size.height = 200
+            tabBar.frame = newFrame
+        }
     }
 
     private func customizeTabBarAppearance() {
