@@ -33,9 +33,7 @@ class BookDetailsViewController: UIViewController {
     private func setupBookDetailsView() {
         let bookImageView = UIImageView()
         bookImageView.image = UIImage(named: book.img)
-        bookImageView.contentMode = .scaleAspectFill
-        bookImageView.layer.cornerRadius = 8
-        bookImageView.clipsToBounds = true
+        bookImageView.contentMode = .scaleAspectFit
         view.addSubview(bookImageView)
         
         let bookNameLabel = UILabel()
@@ -47,7 +45,7 @@ class BookDetailsViewController: UIViewController {
         let authorLabel = UILabel()
         authorLabel.text = book.author
         authorLabel.font = .systemFont(ofSize: 24)
-        authorLabel.textColor = .black
+        authorLabel.textColor = .white
         view.addSubview(authorLabel)
         
         let genreLabel = UILabel()
@@ -119,7 +117,7 @@ class BookDetailsViewController: UIViewController {
         view.addSubview(gradeLabel)
         
         gradeLabel.snp.makeConstraints {
-            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(70)
+            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
             $0.leading.equalTo(commentsTitleLabel)
         }
     }
@@ -145,7 +143,7 @@ class BookDetailsViewController: UIViewController {
         
         for (index, button) in starButtons.enumerated() {
             button.snp.makeConstraints { make in
-                make.top.equalTo(commentsTitleLabel.snp.bottom).offset(70)
+                make.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
                 make.leading.equalTo(view).offset(16 + (index * 50))
                 make.width.height.equalTo(40)
             }
