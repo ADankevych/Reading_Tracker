@@ -1,3 +1,10 @@
+//
+//  AddBookViewController.swift
+//  Reading_Tracker
+//
+//  Created by Адріана Григоришина on 17.12.2024.
+//
+
 import UIKit
 import SnapKit
 
@@ -166,7 +173,7 @@ class AddBookViewController: UIViewController {
             extraComments: commentsTextView.text,
             img: "User_book",
             grade: rating,
-            liked: false
+            like: false
         )
         print("New book added: \(newBook.title)")
         
