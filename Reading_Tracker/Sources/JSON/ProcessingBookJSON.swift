@@ -79,7 +79,7 @@ final class ProcessingBookJSON {
 
         let contents = try JSONEncoder().encode(self.books)
         try contents.write(to: booksPath)
-//        print("Path \(booksPath)")
+        print("Path Books \(booksPath)")
     }
 
     func addBook(userBook: Book) throws {
