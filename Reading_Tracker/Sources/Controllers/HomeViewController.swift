@@ -75,7 +75,8 @@ class HomeViewController: UIViewController {
    }
    
    @objc private func didTapAddMyBooksButton() {
-       
+       let addBookViewController = AddBookViewController()
+       navigationController?.pushViewController(addBookViewController, animated: true)
    }
    
    private func setupCollectionViews() {
