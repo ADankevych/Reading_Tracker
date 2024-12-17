@@ -199,7 +199,7 @@ class BookDetailsViewController: UIViewController {
     
     @objc private func likeButtonTapped() {
         isLiked.toggle()
-        book.liked = isLiked
+        book.like = isLiked
         updateLikeButtonAppearance()
         print("Book is now \(isLiked ? "liked" : "unliked")")
     }
