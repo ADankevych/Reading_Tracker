@@ -24,8 +24,8 @@ class HomeViewController: UIViewController {
    
     let gradientLayer = CAGradientLayer()
     let myBooksLable = UILabel()
-    let booksOfMonth = UILabel()
-    let programingBooks = UILabel()
+    let booksOfMonthLable = UILabel()
+    let programingBooksLable = UILabel()
     let addMyBooksButton = UIButton(type: .system)
    
     private var mainStackView: UIStackView!
@@ -51,20 +51,21 @@ class HomeViewController: UIViewController {
    }
    
    private func setupLables() {
-       myBooksLable.text = "My Books"
+       
+       myBooksLable.attributedText = NSAttributedString(string: "My Books", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
        myBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
        myBooksLable.textColor = .black
        myBooksLable.textAlignment = .left
        
-       booksOfMonth.text = "Top - 5 books of the month"
-       booksOfMonth.font = UIFont.boldSystemFont(ofSize: 24)
-       booksOfMonth.textColor = .black
-       booksOfMonth.textAlignment = .left
+       booksOfMonthLable.attributedText = NSAttributedString(string: "Top - 5 books of the month", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+       booksOfMonthLable.font = UIFont.boldSystemFont(ofSize: 24)
+       booksOfMonthLable.textColor = .black
+       booksOfMonthLable.textAlignment = .left
        
-       programingBooks.text = "Top - 5 books about programming"
-       programingBooks.font = UIFont.boldSystemFont(ofSize: 24)
-       programingBooks.textColor = .black
-       programingBooks.textAlignment = .left
+       programingBooksLable.attributedText = NSAttributedString(string: "Top - 5 books about programming", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+       programingBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
+       programingBooksLable.textColor = .black
+       programingBooksLable.textAlignment = .left
    }
    
    private func setupButton() {
@@ -118,13 +119,12 @@ class HomeViewController: UIViewController {
        myBooksStack.axis = .horizontal
        myBooksStack.alignment = .center
 
-
        mainStackView = UIStackView(arrangedSubviews: [
            myBooksLable,
            myBooksStack,
-           booksOfMonth,
+           booksOfMonthLable,
            booksOfMonthCollectionView,
-           programingBooks,
+           programingBooksLable,
            programingBooksCollectionView
        ])
        
