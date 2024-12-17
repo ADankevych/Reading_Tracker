@@ -143,13 +143,15 @@ class BookDetailsViewController: UIViewController {
             $0.leading.equalTo(bookImageView)
         }
 
-        commentsTitleLabel.text = "Comments: "
+        if book.like {
+            commentsTitleLabel.text = "Comments: "
+            commentsTextLabel.text = book.extraComments
+        }
         commentsTitleLabel.snp.makeConstraints {
             $0.top.equalTo(genreLabel.snp.bottom).offset(20)
             $0.leading.equalTo(genreLabel)
         }
 
-        commentsTextLabel.text = book.extraComments ?? "No extra comments"
         commentsTextLabel.snp.makeConstraints {
             $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(5)
             $0.leading.equalTo(genreLabel)
