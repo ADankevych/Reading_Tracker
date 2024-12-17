@@ -166,7 +166,7 @@ class AddBookViewController: UIViewController {
             extraComments: commentsTextView.text,
             img: "User_book",
             grade: rating,
-            liked: false
+            like: false
         )
         print("New book added: \(newBook.title)")
         
