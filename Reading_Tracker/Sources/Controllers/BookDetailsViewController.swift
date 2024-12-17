@@ -209,6 +209,7 @@ class BookDetailsViewController: UIViewController {
     @objc private func starButtonTapped(_ sender: UIButton) {
         let selectedGrade = sender.tag
         book.grade = selectedGrade
+        do { try ProcessingBookJSON.shared.gradeBook(book: book, grade: selectedGrade) } catch { }
         updateStarButtons()
         print("Grade set to \(selectedGrade) stars")
     }
