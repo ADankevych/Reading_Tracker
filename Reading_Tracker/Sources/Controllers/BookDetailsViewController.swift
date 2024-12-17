@@ -11,6 +11,8 @@ import SnapKit
 class BookDetailsViewController: UIViewController {
     
     var book: Book
+    
+    private var isLiked: Bool = false
 
     private let bookImageView: UIImageView = {
         let imageView = UIImageView()
@@ -54,6 +56,18 @@ class BookDetailsViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         return label
     }()
+    
+    private let likeButton: UIButton = {
+        let button = UIButton()
+        let normalHeartImage = UIImage(systemName: "heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+        let filledHeartImage = UIImage(systemName: "heart.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .heavy))
+        
+        button.setImage(normalHeartImage, for: .normal)
+        button.setImage(filledHeartImage, for: .highlighted)
+        button.tintColor = .black
+        button.backgroundColor = .clear
+        return button
+    }()
 
     private var starButtons: [UIButton] = []
 
@@ -80,6 +94,9 @@ class BookDetailsViewController: UIViewController {
         view.addSubview(genreLabel)
         view.addSubview(commentsTitleLabel)
         view.addSubview(commentsTextLabel)
+        view.addSubview(likeButton)
+        likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+        updateLikeButtonAppearance()
 
         if let grade = book.grade {
             displayGrade(grade)
@@ -127,6 +144,13 @@ class BookDetailsViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(16)
             $0.height.lessThanOrEqualTo(150)
         }
+        
+        likeButton.snp.makeConstraints {
+            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
+            $0.leading.equalTo(commentsTitleLabel).offset(300)
+            $0.width.equalTo(70)
+            $0.height.equalTo(50)
+        }
     }
 
     private func displayGrade(_ grade: Int) {
@@ -173,9 +197,16 @@ class BookDetailsViewController: UIViewController {
         print("Grade set to \(selectedGrade) stars")
     }
     
+    @objc private func likeButtonTapped() {
+        isLiked.toggle()
+        book.liked = isLiked
+        updateLikeButtonAppearance()
+        print("Book is now \(isLiked ? "liked" : "unliked")")
+    }
+    
     private func updateStarButtons() {
         for (index, button) in starButtons.enumerated() {
-            button.isSelected = index < book.grade!
+            button.isSelected = index < book.grade ?? 0
         }
     }
     
