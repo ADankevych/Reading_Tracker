@@ -25,7 +25,17 @@
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
 		<key>UISceneConfigurations</key>
-		<dict/>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>Reading_Tracker.SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
 	</dict>
 	<key>UILaunchScreen</key>
 	<dict>

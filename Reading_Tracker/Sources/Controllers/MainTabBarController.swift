@@ -18,6 +18,8 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         let homeIcon = UIImage(systemName: "house")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
         let homeNavController = UINavigationController(rootViewController: homeVC)
+        homeNavController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        homeNavController.navigationBar.shadowImage = UIImage()
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: homeIcon, tag: 0)
 
         let favouriteVC = FavouriteViewController()

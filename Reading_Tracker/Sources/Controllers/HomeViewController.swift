@@ -136,7 +136,7 @@ class HomeViewController: UIViewController {
        ])
        
        mainStackView.axis = .vertical
-       mainStackView.spacing = 16
+       mainStackView.spacing = 20
        mainStackView.alignment = .fill
        
        contentView.addSubview(mainStackView)
