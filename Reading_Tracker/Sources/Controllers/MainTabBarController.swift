@@ -21,16 +21,18 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: homeIcon, tag: 0)
 
         let favouriteVC = FavouriteViewController()
+        let favouriteNavController = UINavigationController(rootViewController: favouriteVC)
         let favIcon = UIImage(systemName: "heart")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
-        favouriteVC.tabBarItem = UITabBarItem(title: "Favourite", image: favIcon, tag: 1)
+        favouriteNavController.tabBarItem = UITabBarItem(title: "Favourite", image: favIcon, tag: 1)
 
         let profileVC = ProfileViewController()
+        let profileNavController = UINavigationController(rootViewController: profileVC)
         let profileIcon = UIImage(systemName: "person.crop.circle")?
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 26, weight: .medium, scale: .large))
-        profileVC.tabBarItem = UITabBarItem(title: "Profile", image: profileIcon, tag: 2)
+        profileNavController.tabBarItem = UITabBarItem(title: "Profile", image: profileIcon, tag: 2)
 
-        viewControllers = [homeNavController, favouriteVC, profileVC]
+        viewControllers = [homeNavController, favouriteNavController, profileNavController]
         customizeTabBarAppearance()
 
         tabBar.setNeedsLayout()
@@ -63,7 +65,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         if #available(iOS 15.0, *) {
             tabBar.scrollEdgeAppearance = appearance
         }
-
     }
 }
 
