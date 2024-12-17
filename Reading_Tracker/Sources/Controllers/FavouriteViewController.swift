@@ -14,45 +14,31 @@ class FavouriteViewController: UIViewController {
     private var booksCollectionView: UICollectionView!
     private var quotesCollectionView: UICollectionView!
 
-    private let favoriteBooksLabel: UILabel = {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupBackground()
+
         let favoriteBooksLabel = UILabel()
         favoriteBooksLabel.text = "Favourite Books"
         favoriteBooksLabel.font = UIFont.boldSystemFont(ofSize: 24)
         favoriteBooksLabel.textAlignment = .left
         favoriteBooksLabel.textColor = .black
-        return favoriteBooksLabel
-    }()
 
-    private let savedQuotesLabel: UILabel = {
+        booksCollectionView = createCollectionView()
+
         let savedQuotesLabel = UILabel()
         savedQuotesLabel.text = "Saved Quotes"
         savedQuotesLabel.font = UIFont.boldSystemFont(ofSize: 24)
         savedQuotesLabel.textAlignment = .left
         savedQuotesLabel.textColor = .black
-        return savedQuotesLabel
-    }()
 
-    private let addQuoteButton: UIButton = {
+        quotesCollectionView = createCollectionView()
+
         let addQuoteButton = UIButton(type: .system)
         addQuoteButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         addQuoteButton.tintColor = .black
-        addQuoteButton.addTarget(FavouriteViewController.self,
-                    action: #selector(didTapAddQuoteButton), for: .touchUpInside)
-        return addQuoteButton
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        booksCollectionView = createCollectionView()
-        quotesCollectionView = createCollectionView()
-
-        setupBackground()
-        setupLayout()
-        view.addSubview(setupStackView())
-    }
-
-    private func setupStackView() -> UIStackView {
+        addQuoteButton.addTarget(self, action: #selector(didTapAddQuoteButton), for: .touchUpInside)
         let addQuoteAndQuotesStackView = UIStackView(arrangedSubviews: [addQuoteButton, quotesCollectionView])
         addQuoteAndQuotesStackView.axis = .horizontal
         addQuoteAndQuotesStackView.spacing = 16
@@ -68,17 +54,14 @@ class FavouriteViewController: UIViewController {
         stackView.spacing = 20
         stackView.alignment = .fill
 
+        view.addSubview(stackView)
+
         stackView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.equalTo(view).offset(16)
             $0.trailing.equalTo(view).offset(-16)
             $0.bottom.lessThanOrEqualTo(view).offset(-20)
         }
-
-        return stackView
-    }
-
-    private func setupLayout() {
 
         booksCollectionView.snp.makeConstraints {
             $0.height.equalTo(250)
@@ -142,8 +125,7 @@ class FavouriteViewController: UIViewController {
                 print("\(newQuote.title), \(newQuote.quote)")
                 self.quotesCollectionView.reloadData()
             } catch {
-                let errorAlert = UIAlertController(title: "Error",
-                                message: "Failed to add quote: \(error.localizedDescription)", preferredStyle: .alert)
+                let errorAlert = UIAlertController(title: "Error", message: "Failed to add quote: \(error.localizedDescription)", preferredStyle: .alert)
                 errorAlert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(errorAlert, animated: true)
             }
