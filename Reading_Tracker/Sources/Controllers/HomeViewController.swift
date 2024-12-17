@@ -119,7 +119,6 @@ class HomeViewController: UIViewController {
        myBooksStack.alignment = .center
 
 
-       
        mainStackView = UIStackView(arrangedSubviews: [
            myBooksLable,
            myBooksStack,
@@ -181,7 +180,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    private func configureGradedBookCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
       
-
        let book = ProcessingBookJSON.shared.gradedBooks()[indexPath.item]
 
        let imageView = UIImageView()
@@ -232,7 +230,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    private func configureMonthBookCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
     
-
        let book = ProcessingBookJSON.shared.books[indexPath.item + 5]
 
        let imageView = UIImageView()
@@ -283,7 +280,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    private func configureProgrammingBookCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
        
-
        let book = ProcessingBookJSON.shared.books[indexPath.item]
 
        let imageView = UIImageView()
