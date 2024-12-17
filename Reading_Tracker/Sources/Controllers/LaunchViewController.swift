@@ -111,18 +111,18 @@ class LaunchViewController: UIViewController {
        }
 
     private func makeLeaf(scale: CGFloat) -> UIBezierPath {
-            let centerX = view.bounds.midX
-            let centerY = view.bounds.height - 390
-            let radius: CGFloat = 80 * scale
+        let centerX = view.bounds.midX
+        let centerY = view.bounds.height - 390
+        let radius: CGFloat = 80 * scale
 
-            return UIBezierPath(
-                arcCenter: CGPoint(x: centerX, y: centerY),
-                radius: radius,
-                startAngle: 0,
-                endAngle: 360,
-                clockwise: true
-            )
-        }
+        return UIBezierPath(
+            arcCenter: CGPoint(x: centerX, y: centerY),
+            radius: radius,
+            startAngle: 0,
+            endAngle: 360,
+            clockwise: true
+        )
+    }
 
     private func createHillAnimation() {
         let animation = CABasicAnimation(keyPath: "path")
