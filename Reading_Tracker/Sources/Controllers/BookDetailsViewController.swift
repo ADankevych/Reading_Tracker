@@ -22,15 +22,21 @@ class BookDetailsViewController: UIViewController {
 
     private let bookNameLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 35)
+        label.font = .boldSystemFont(ofSize: 28)
         label.textColor = .white
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
         return label
     }()
 
     private let authorLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 24)
+        label.font = .systemFont(ofSize: 20)
         label.textColor = .white
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
         return label
     }()
 
@@ -117,12 +123,14 @@ class BookDetailsViewController: UIViewController {
         bookNameLabel.snp.makeConstraints {
             $0.top.equalTo(bookImageView.snp.bottom).offset(10)
             $0.centerX.equalTo(bookImageView)
+            $0.width.lessThanOrEqualTo(320)
         }
 
         authorLabel.text = book.author
         authorLabel.snp.makeConstraints {
             $0.bottom.equalTo(bookImageView.snp.top).offset(-20)
             $0.centerX.equalTo(bookImageView)
+            $0.width.lessThanOrEqualTo(350)
         }
 
         genreLabel.text = book.genre
@@ -146,7 +154,7 @@ class BookDetailsViewController: UIViewController {
         }
         
         likeButton.snp.makeConstraints {
-            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
+            $0.top.equalTo(bookImageView.snp.bottom).offset(210)
             $0.leading.equalTo(commentsTitleLabel).offset(300)
             $0.width.equalTo(70)
             $0.height.equalTo(50)
@@ -160,7 +168,7 @@ class BookDetailsViewController: UIViewController {
         gradeLabel.textColor = .yellow
         view.addSubview(gradeLabel)
         gradeLabel.snp.makeConstraints {
-            $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
+            $0.top.equalTo(bookImageView.snp.bottom).offset(210)
             $0.leading.equalTo(commentsTitleLabel)
         }
     }
@@ -183,7 +191,7 @@ class BookDetailsViewController: UIViewController {
         }
         for (index, button) in starButtons.enumerated() {
             button.snp.makeConstraints {
-                $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(110)
+                $0.top.equalTo(bookImageView.snp.bottom).offset(210)
                 $0.leading.equalTo(commentsTitleLabel).offset(5 + (index * 50))
                 $0.width.height.equalTo(40)
             }
