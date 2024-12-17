@@ -9,6 +9,10 @@ import UIKit
 import SwiftUI
 import SnapKit
 
+protocol AddBookDelegate: AnyObject {
+    func didAddNewBook(_ book: Book)
+}
+
 class HomeViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -74,10 +78,12 @@ class HomeViewController: UIViewController {
        addMyBooksButton.addTarget(self, action: #selector(didTapAddMyBooksButton), for: .touchUpInside)
    }
    
-   @objc private func didTapAddMyBooksButton() {
-       let addBookViewController = AddBookViewController()
-       navigationController?.pushViewController(addBookViewController, animated: true)
-   }
+    @objc private func didTapAddMyBooksButton() {
+        let addBookViewController = AddBookViewController()
+        addBookViewController.delegate = self
+        navigationController?.pushViewController(addBookViewController, animated: true)
+    }
+
    
    private func setupCollectionViews() {
        addMyBooksCollectionView = createCollectionView()
@@ -155,7 +161,7 @@ class HomeViewController: UIViewController {
            $0.width.height.equalTo(30)
        }
    }
-    
+
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -345,4 +351,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         navigationController?.pushViewController(bookDetailsVC, animated: true)
     }
 
+}
+
+extension HomeViewController: AddBookDelegate {
+    func didAddNewBook(_ book: Book) {
+        addMyBooksCollectionView.reloadData()
+    }
 }

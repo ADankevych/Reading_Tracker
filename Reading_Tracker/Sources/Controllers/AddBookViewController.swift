@@ -9,6 +9,8 @@ import UIKit
 import SnapKit
 
 class AddBookViewController: UIViewController {
+
+    weak var delegate: AddBookDelegate?
     
     private let titleTextField = UITextField()
     private let authorTextField = UITextField()
@@ -176,6 +178,13 @@ class AddBookViewController: UIViewController {
             like: false
         )
         print("New book added: \(newBook.title)")
+        
+        do {
+            try ProcessingBookJSON.shared.addBook(userBook: newBook)
+            delegate?.didAddNewBook(newBook)
+        } catch {
+            print("Error adding new book: \(error)")
+        }
         
         dismiss(animated: true, completion: nil)
     }
