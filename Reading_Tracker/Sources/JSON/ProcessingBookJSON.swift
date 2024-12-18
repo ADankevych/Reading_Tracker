@@ -17,7 +17,7 @@ final class ProcessingBookJSON {
     var books: [Book]
     private static var defaultBooks: [Book] = [
 // Note: first 5 - top about programming
-    Book(title: "Develop in Swift Fundamentals",
+        Book(title: "Develop in Swift Fundamentals",
              author: "Apple Education",
              genre: "Education, Documentation",
              img: "Swift_Fundamentals"),
@@ -139,4 +139,12 @@ final class ProcessingBookJSON {
     func gradedBooks() -> [Book] {
         return self.books.filter { $0.grade != nil }
     }
+
+    func reload() {
+        self.books = ProcessingBookJSON.defaultBooks
+        do {
+            try writeBooks()
+        } catch { }
+    }
+
 }
