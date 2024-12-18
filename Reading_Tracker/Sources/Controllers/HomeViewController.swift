@@ -41,6 +41,9 @@ class HomeViewController: UIViewController {
         setupCollectionViews()
         setupButton()
         setupLayout()
+        do { try ProcessingBookJSON.shared.loadBooks() } catch { }
+        print("Books after loading from file: \(ProcessingBookJSON.shared.books)")
+        addMyBooksCollectionView.reloadData()
     }
    
    private func setupGradient() {
