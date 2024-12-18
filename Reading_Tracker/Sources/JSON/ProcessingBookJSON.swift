@@ -73,9 +73,17 @@ final class ProcessingBookJSON {
             print("Books file doesn't exist. Keeping current books.")
         }
     }
-    
+
     private init() {
-        if FileManager.default.fileExists(atPath: booksPath.path) {
+        if !FileManager.default.fileExists(atPath: booksPath.path) {
+            do {
+                let initialContent = Data("[]".utf8)
+                try initialContent.write(to: booksPath)
+            } catch {
+                print("Error creating books file: \(error)")
+            }
+            self.books = ProcessingBookJSON.defaultBooks
+        } else {
             do {
                 let data = try Data(contentsOf: booksPath)
                 let loadedBooks = try JSONDecoder().decode([Book].self, from: data)
@@ -84,12 +92,9 @@ final class ProcessingBookJSON {
                 print("Error loading books from file: \(error)")
                 self.books = ProcessingBookJSON.defaultBooks
             }
-        } else {
-            print("Books file doesn't exist. Using default books.")
-            self.books = ProcessingBookJSON.defaultBooks
         }
     }
-    
+
     func parseBooks() throws -> [Book] {
         if !FileManager.default.fileExists(atPath: booksPath.path) {
             let initialContent = Data("[]".utf8)
