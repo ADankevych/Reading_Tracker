@@ -146,11 +146,10 @@ class TreeViewController: UIViewController {
         let numberOfBooks = ProcessingBookJSON.shared.gradedBooks().count
         if numberOfBooks == 0 {
             booksReadLabel.text = " \(numberOfBooks) book \n Looking like \n a lot of work to do😉 "
-        } else if numberOfBooks == 1{
+        } else if numberOfBooks == 1 {
             booksReadLabel.text = " \(numberOfBooks) book \n Yay😍"
         } else {
             booksReadLabel.text = " \(numberOfBooks) books \n Yay🥳"
-
         }
         booksReadLabel.font = .boldSystemFont(ofSize: 32)
     }

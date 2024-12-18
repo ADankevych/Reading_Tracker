@@ -247,7 +247,6 @@ class BookDetailsViewController: UIViewController {
         }
     }
 
-
     private func updateStarButtons() {
         for (index, button) in starButtons.enumerated() {
             button.isSelected = index < book.grade ?? 0

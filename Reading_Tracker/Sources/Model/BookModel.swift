@@ -17,7 +17,7 @@ struct Book: Codable, Equatable {
     var grade: Int?
     var like: Bool = false
     
-    static func ==(lhs: Book, rhs: Book) -> Bool {
-            return lhs.title == rhs.title && lhs.author == rhs.author
-        }
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        return lhs.title == rhs.title && lhs.author == rhs.author
+    }
 }
