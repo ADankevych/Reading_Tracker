@@ -74,9 +74,13 @@ class FavouriteViewController: UIViewController {
         addQuoteButton.snp.makeConstraints {
             $0.width.height.equalTo(40)
         }
-        
         do { try ProcessingQuoteJSON.shared.loadQuotes() } catch { }
+        booksCollectionView.reloadData()
         quotesCollectionView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        booksCollectionView.reloadData()
     }
 
     private func createCollectionView() -> UICollectionView {
@@ -185,7 +189,7 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
         cell.contentView.subviews.forEach { $0.removeFromSuperview() }
 
         let book = ProcessingBookJSON.shared.favouriteBooks()[indexPath.item]
-
+        
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 8
@@ -265,8 +269,20 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
         if collectionView == quotesCollectionView {
             let quote = ProcessingQuoteJSON.shared.quotes[indexPath.item]
             let quoteDetailsVC = QuoteDetailsViewController(quote: quote)
-
             navigationController?.pushViewController(quoteDetailsVC, animated: true)
         }
+        
+        if collectionView == booksCollectionView {
+            let book = ProcessingBookJSON.shared.favouriteBooks()[indexPath.item]
+            let bookDetailsVC = BookDetailsViewController(book: book)
+            bookDetailsVC.delegate = self
+            navigationController?.pushViewController(bookDetailsVC, animated: true)
+        }
+    }
+}
+
+extension FavouriteViewController: BookDetailsViewControllerDelegate {
+    func didUpdateLikeState(for book: Book) {
+        booksCollectionView.reloadData()
     }
 }

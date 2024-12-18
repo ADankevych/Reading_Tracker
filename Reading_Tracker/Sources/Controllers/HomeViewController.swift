@@ -41,8 +41,9 @@ class HomeViewController: UIViewController {
         setupCollectionViews()
         setupButton()
         setupLayout()
-        do { try ProcessingBookJSON.shared.loadBooks() } catch { }
-        print("Books after loading from file: \(ProcessingBookJSON.shared.books)")
+        addMyBooksCollectionView.reloadData()
+    }
+    override func viewWillAppear(_ animated: Bool) {
         addMyBooksCollectionView.reloadData()
     }
    
@@ -380,6 +381,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         let bookDetailsVC = BookDetailsViewController(book: selectedBook)
+        bookDetailsVC.delegate = self
         navigationController?.pushViewController(bookDetailsVC, animated: true)
     }
 
@@ -388,5 +390,21 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension HomeViewController: AddBookDelegate {
     func didAddNewBook(_ book: Book) {
         addMyBooksCollectionView.reloadData()
+    }
+}
+
+extension HomeViewController: BookDetailsViewControllerDelegate {
+    func didUpdateLikeState(for book: Book) {
+        do {
+            if book.like == true {
+                try ProcessingBookJSON.shared.likedBook(book: book)
+            } else {
+                try ProcessingBookJSON.shared.dislikedBook(book: book)
+            }
+            addMyBooksCollectionView.reloadData()
+            
+        } catch {
+            print("Error updating like state: \(error)")
+        }
     }
 }
