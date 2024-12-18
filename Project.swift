@@ -43,5 +43,15 @@ let project = Project(
             resources: [],
             dependencies: [.target(name: "Reading_Tracker")]
         ),
+        .target(
+            name: "ProcessingJSONTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "io.tuist.ProcessingJSONTests",
+            infoPlist: .default,
+            sources: ["Reading_Tracker/Tests/**"],
+            resources: [],
+            dependencies: [.target(name: "Reading_Tracker")]
+        ),
     ]
 )
