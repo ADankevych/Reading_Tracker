@@ -183,10 +183,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
        if collectionView == addMyBooksCollectionView {
            return configureGradedBookCell(for: collectionView, at: indexPath)
-       } else if collectionView == booksOfMonthCollectionView {
-           return configureMonthBookCell(for: collectionView, at: indexPath)
        } else {
-           return configureProgrammingBookCell(for: collectionView, at: indexPath)
+           return configureBookCell(for: collectionView, at: indexPath)
        }
    }
 
@@ -248,129 +246,72 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
            heartIcon.snp.makeConstraints {
                $0.width.height.equalTo(20)
                $0.top.equalTo(cell.contentView).offset(15)
-               $0.right.equalTo(cell.contentView).offset(-22)
+               $0.right.equalTo(cell.contentView).offset(-28)
            }
        }
 
        return cell
    }
 
-   private func configureMonthBookCell(for collectionView: UICollectionView, at
-                                       indexPath: IndexPath) -> UICollectionViewCell {
-       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
-
-       let bookIndex = indexPath.item + 5
-       guard bookIndex < ProcessingBookJSON.shared.books.count else {
-           print("Error: Index out of bounds for booksOfMonthCollectionView. Index: \(bookIndex), Total Books: \(ProcessingBookJSON.shared.books.count)")
-           return cell
-       }
-
-       let book = ProcessingBookJSON.shared.books[bookIndex]
-
-       let imageView = UIImageView()
-       imageView.contentMode = .scaleAspectFit
-       imageView.layer.cornerRadius = 8
-       imageView.clipsToBounds = true
-       imageView.image = UIImage(named: book.img)
-       cell.contentView.addSubview(imageView)
-
-       imageView.snp.makeConstraints {
-           $0.top.equalTo(cell.contentView).offset(5)
-           $0.left.equalTo(cell.contentView).offset(5)
-           $0.right.equalTo(cell.contentView).offset(-5)
-           $0.height.equalTo(cell.bounds.height * 0.7)
-       }
-
-       let titleLabel = UILabel()
-       titleLabel.text = book.title
-       titleLabel.textAlignment = .center
-       titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-       titleLabel.numberOfLines = 0
-       titleLabel.textColor = .black
-       cell.contentView.addSubview(titleLabel)
-
-       titleLabel.snp.makeConstraints {
-           $0.top.equalTo(imageView.snp.bottom).offset(5)
-           $0.left.equalTo(cell.contentView).offset(5)
-           $0.right.equalTo(cell.contentView).offset(-5)
-       }
-
-       let authorLabel = UILabel()
-       authorLabel.text = book.author
-       authorLabel.textAlignment = .center
-       authorLabel.font = UIFont.systemFont(ofSize: 12)
-       authorLabel.textColor = .black
-       cell.contentView.addSubview(authorLabel)
-
-       authorLabel.snp.makeConstraints {
-           $0.top.equalTo(titleLabel.snp.bottom).offset(2)
-           $0.left.equalTo(cell.contentView).offset(5)
-           $0.right.equalTo(cell.contentView).offset(-5)
-           $0.bottom.lessThanOrEqualToSuperview().offset(-5)
-       }
-
-       return cell
-   }
-
-   private func configureProgrammingBookCell(for collectionView: UICollectionView, at
-                                             indexPath: IndexPath) -> UICollectionViewCell {
-       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
-
-       guard indexPath.item < ProcessingBookJSON.shared.books.count else {
-           print("Error: Index out of bounds for programingBooksCollectionView. Index: \(indexPath.item), Total Books: \(ProcessingBookJSON.shared.books.count)")
-           return cell
-       }
-
-       let book = ProcessingBookJSON.shared.books[indexPath.item]
-
-       let imageView = UIImageView()
-       imageView.contentMode = .scaleAspectFit
-       imageView.layer.cornerRadius = 8
-       imageView.clipsToBounds = true
-       imageView.image = UIImage(named: book.img)
-       cell.contentView.addSubview(imageView)
-
-       imageView.snp.makeConstraints {
-           $0.top.equalTo(cell.contentView).offset(5)
-           $0.left.equalTo(cell.contentView).offset(5)
-           $0.right.equalTo(cell.contentView).offset(-5)
-           $0.height.equalTo(cell.bounds.height * 0.7)
-       }
-
-       let titleLabel = UILabel()
-       titleLabel.text = book.title
-       titleLabel.textAlignment = .center
-       titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-       titleLabel.numberOfLines = 0
-       titleLabel.textColor = .black
-       cell.contentView.addSubview(titleLabel)
-
-       titleLabel.snp.makeConstraints {
-           $0.top.equalTo(imageView.snp.bottom).offset(5)
-           $0.left.equalTo(cell.contentView).offset(5)
-           $0.right.equalTo(cell.contentView).offset(-5)
-       }
-
-       let authorLabel = UILabel()
-       authorLabel.text = book.author
-       authorLabel.textAlignment = .center
-       authorLabel.font = UIFont.systemFont(ofSize: 12)
-       authorLabel.textColor = .black
-       cell.contentView.addSubview(authorLabel)
-
-       authorLabel.snp.makeConstraints {
-           $0.top.equalTo(titleLabel.snp.bottom).offset(2)
-           $0.left.equalTo(cell.contentView).offset(5)
-           $0.right.equalTo(cell.contentView).offset(-5)
-           $0.bottom.lessThanOrEqualToSuperview().offset(-5)
-       }
-
-       return cell
-   }
+    private func configureBookCell(for collectionView: UICollectionView, at
+                                              indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
+        
+        guard indexPath.item < ProcessingBookJSON.shared.books.count else { return cell }
+        var bookIndex = 0
+        if collectionView == booksOfMonthCollectionView {
+            bookIndex = indexPath.item + 5
+        } else {
+            bookIndex = indexPath.item
+        }
+        let book = ProcessingBookJSON.shared.books[bookIndex]
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.cornerRadius = 8
+        imageView.clipsToBounds = true
+        imageView.image = UIImage(named: book.img)
+        cell.contentView.addSubview(imageView)
+        
+        imageView.snp.makeConstraints {
+            $0.top.equalTo(cell.contentView).offset(5)
+            $0.left.equalTo(cell.contentView).offset(5)
+            $0.right.equalTo(cell.contentView).offset(-5)
+            $0.height.equalTo(cell.bounds.height * 0.7)
+        }
+        
+        let titleLabel = UILabel()
+        titleLabel.text = book.title
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        titleLabel.numberOfLines = 0
+        titleLabel.textColor = .black
+        cell.contentView.addSubview(titleLabel)
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(imageView.snp.bottom).offset(5)
+            $0.left.equalTo(cell.contentView).offset(5)
+            $0.right.equalTo(cell.contentView).offset(-5)
+        }
+        
+        let authorLabel = UILabel()
+        authorLabel.text = book.author
+        authorLabel.textAlignment = .center
+        authorLabel.font = UIFont.systemFont(ofSize: 12)
+        authorLabel.textColor = .black
+        cell.contentView.addSubview(authorLabel)
+        
+        authorLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(2)
+            $0.left.equalTo(cell.contentView).offset(5)
+            $0.right.equalTo(cell.contentView).offset(-5)
+            $0.bottom.lessThanOrEqualToSuperview().offset(-5)
+        }
+        
+        return cell
+    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell tapped at index: \(indexPath)")
-        
         var selectedBook: Book
         if collectionView == addMyBooksCollectionView {
             selectedBook = ProcessingBookJSON.shared.gradedBooks()[indexPath.item]
@@ -379,7 +320,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         } else {
             selectedBook = ProcessingBookJSON.shared.books[indexPath.item]
         }
-        
+
         let bookDetailsVC = BookDetailsViewController(book: selectedBook)
         bookDetailsVC.delegate = self
         navigationController?.pushViewController(bookDetailsVC, animated: true)
@@ -402,7 +343,7 @@ extension HomeViewController: BookDetailsViewControllerDelegate {
                 try ProcessingBookJSON.shared.dislikedBook(book: book)
             }
             addMyBooksCollectionView.reloadData()
-            
+
         } catch {
             print("Error updating like state: \(error)")
         }

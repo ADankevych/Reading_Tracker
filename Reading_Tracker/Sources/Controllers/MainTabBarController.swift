@@ -12,12 +12,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        do {
-            try ProcessingBookJSON.shared.parseBooks()
-            try ProcessingQuoteJSON.shared.parseQuotes()
-        } catch {
-            print("Failed to parse JSON")
-        }
 
         print("MainTabBarController loaded!")
         self.delegate = self
