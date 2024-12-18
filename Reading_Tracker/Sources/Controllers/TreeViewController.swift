@@ -100,7 +100,7 @@ class TreeViewController: UIViewController {
     }
 
     private func addTreeImage() {
-        let numberOfBooks = ProcessingBookJSON.shared.favouriteBooks().count
+        let numberOfBooks = ProcessingBookJSON.shared.gradedBooks().count
         if let treeImageName = getTreeImage(for: numberOfBooks) {
             let treeImageView = UIImageView()
             treeImageView.image = UIImage(named: treeImageName)
@@ -143,7 +143,7 @@ class TreeViewController: UIViewController {
     }
     
     private func updateBooksReadLabel() {
-        let numberOfBooks = ProcessingBookJSON.shared.favouriteBooks().count
+        let numberOfBooks = ProcessingBookJSON.shared.gradedBooks().count
         booksReadLabel.text = " \(numberOfBooks) books \n Yay🥳"
         booksReadLabel.font = .boldSystemFont(ofSize: 32)
     }

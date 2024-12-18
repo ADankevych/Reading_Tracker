@@ -23,7 +23,7 @@ class BookDetailsViewController: UIViewController {
     private let bookNameLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 28)
-        label.textColor = .white
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -33,7 +33,7 @@ class BookDetailsViewController: UIViewController {
     private let authorLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20)
-        label.textColor = .white
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
@@ -43,21 +43,23 @@ class BookDetailsViewController: UIViewController {
     private let genreLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .black
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
     private let commentsTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 18)
-        label.textColor = .white
+        label.textColor = .black
         return label
     }()
 
     private let commentsTextLabel: UILabel = {
         let label = UILabel()
         label.font = .italicSystemFont(ofSize: 14)
-        label.textColor = .white
+        label.textColor = .black
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
@@ -65,8 +67,10 @@ class BookDetailsViewController: UIViewController {
     
     private let likeButton: UIButton = {
         let button = UIButton()
-        let normalHeartImage = UIImage(systemName: "heart")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
-        let filledHeartImage = UIImage(systemName: "heart.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .heavy))
+        let normalHeartImage = UIImage(systemName: "heart")?.withConfiguration(
+            UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+        let filledHeartImage = UIImage(systemName: "heart.fill")?.withConfiguration(
+            UIImage.SymbolConfiguration(pointSize: 40, weight: .heavy))
         
         button.setImage(normalHeartImage, for: .normal)
         button.setImage(filledHeartImage, for: .highlighted)
@@ -139,13 +143,15 @@ class BookDetailsViewController: UIViewController {
             $0.leading.equalTo(bookImageView)
         }
 
-        commentsTitleLabel.text = "Comments: "
+        if book.grade != nil {
+            commentsTitleLabel.text = "Comments: "
+            commentsTextLabel.text = book.extraComments
+        }
         commentsTitleLabel.snp.makeConstraints {
             $0.top.equalTo(genreLabel.snp.bottom).offset(20)
             $0.leading.equalTo(genreLabel)
         }
 
-        commentsTextLabel.text = book.extraComments ?? "No extra comments"
         commentsTextLabel.snp.makeConstraints {
             $0.top.equalTo(commentsTitleLabel.snp.bottom).offset(5)
             $0.leading.equalTo(genreLabel)
@@ -172,18 +178,20 @@ class BookDetailsViewController: UIViewController {
             $0.leading.equalTo(commentsTitleLabel)
         }
     }
-    
+
     private func createStarButtons() {
         let starCount = 5
         for index in 0..<starCount {
             let starButton = UIButton()
-            
-            let normalStarImage = UIImage(systemName: "star")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
-            let selectedStarImage = UIImage(systemName: "star.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+
+            let normalStarImage = UIImage(systemName: "star")?.withConfiguration(
+                UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+            let selectedStarImage = UIImage(systemName: "star.fill")?.withConfiguration(
+                UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
             starButton.setImage(normalStarImage, for: .normal)
             starButton.setImage(selectedStarImage, for: .selected)
             starButton.tintColor = .yellow
-            
+
             starButton.addTarget(self, action: #selector(starButtonTapped(_:)), for: .touchUpInside)
             starButton.tag = index + 1
             starButtons.append(starButton)
@@ -201,31 +209,32 @@ class BookDetailsViewController: UIViewController {
     @objc private func starButtonTapped(_ sender: UIButton) {
         let selectedGrade = sender.tag
         book.grade = selectedGrade
+        do { try ProcessingBookJSON.shared.gradeBook(book: book, grade: selectedGrade) } catch { }
         updateStarButtons()
         print("Grade set to \(selectedGrade) stars")
     }
-    
+
     @objc private func likeButtonTapped() {
         isLiked.toggle()
         book.like = isLiked
         updateLikeButtonAppearance()
         print("Book is now \(isLiked ? "liked" : "unliked")")
     }
-    
+
     private func updateStarButtons() {
         for (index, button) in starButtons.enumerated() {
             button.isSelected = index < book.grade ?? 0
         }
     }
-    
+
     private func updateLikeButtonAppearance() {
         let imageName = isLiked ? "heart.fill" : "heart"
-        let image = UIImage(systemName: imageName)?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
+        let image = UIImage(systemName: imageName)?.withConfiguration(
+            UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
         likeButton.setImage(image, for: .normal)
         likeButton.tintColor = isLiked ? .red : .black
     }
 
-    
     private func setupBackground() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
@@ -237,5 +246,4 @@ class BookDetailsViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         view.layer.insertSublayer(gradientLayer, at: 0)
     }
-    
 }

@@ -54,61 +54,63 @@ class HomeViewController: UIViewController {
        view.layer.insertSublayer(gradientLayer, at: 0)
    }
    
-   private func setupLables() {
-       
-       myBooksLable.attributedText = NSAttributedString(string: "My Books", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
-       myBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
-       myBooksLable.textColor = .black
-       myBooksLable.textAlignment = .left
-       
-       booksOfMonthLable.attributedText = NSAttributedString(string: "Top - 5 books of the month", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
-       booksOfMonthLable.font = UIFont.boldSystemFont(ofSize: 24)
-       booksOfMonthLable.textColor = .black
-       booksOfMonthLable.textAlignment = .left
-       
-       programingBooksLable.attributedText = NSAttributedString(string: "Top - 5 books about programming", attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
-       programingBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
-       programingBooksLable.textColor = .black
-       programingBooksLable.textAlignment = .left
-   }
-   
-   private func setupButton() {
-       addMyBooksButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
-       addMyBooksButton.tintColor = .black
-       addMyBooksButton.addTarget(self, action: #selector(didTapAddMyBooksButton), for: .touchUpInside)
-   }
-   
+    private func setupLables() {
+
+        myBooksLable.attributedText = NSAttributedString(string: "My Books",
+                    attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        myBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
+        myBooksLable.textColor = .black
+        myBooksLable.textAlignment = .left
+
+        booksOfMonthLable.attributedText = NSAttributedString(string: "Top - 5 books of the month",
+                    attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        booksOfMonthLable.font = UIFont.boldSystemFont(ofSize: 24)
+        booksOfMonthLable.textColor = .black
+        booksOfMonthLable.textAlignment = .left
+        
+        programingBooksLable.attributedText = NSAttributedString(string: "Top - 5 books about programming",
+                    attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        programingBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
+        programingBooksLable.textColor = .black
+        programingBooksLable.textAlignment = .left
+    }
+
+    private func setupButton() {
+        addMyBooksButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        addMyBooksButton.tintColor = .black
+        addMyBooksButton.addTarget(self, action: #selector(didTapAddMyBooksButton), for: .touchUpInside)
+    }
+
     @objc private func didTapAddMyBooksButton() {
         let addBookViewController = AddBookViewController()
         addBookViewController.delegate = self
         navigationController?.pushViewController(addBookViewController, animated: true)
     }
 
-   
    private func setupCollectionViews() {
        addMyBooksCollectionView = createCollectionView()
        booksOfMonthCollectionView = createCollectionView()
        programingBooksCollectionView = createCollectionView()
-       
+
        [addMyBooksCollectionView, booksOfMonthCollectionView, programingBooksCollectionView].forEach {
            $0.delegate = self
            $0.dataSource = self
        }
    }
-   
+
    private func createCollectionView() -> UICollectionView {
        let layout = UICollectionViewFlowLayout()
        layout.scrollDirection = .horizontal
        layout.itemSize = CGSize(width: 150, height: 200)
        layout.minimumLineSpacing = 16
-       
+
        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
        collectionView.backgroundColor = .clear
        collectionView.showsHorizontalScrollIndicator = false
        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "BookCell")
        return collectionView
    }
-   
+
    private func setupLayout() {
        view.addSubview(scrollView)
        scrollView.addSubview(contentView)
@@ -116,12 +118,12 @@ class HomeViewController: UIViewController {
        scrollView.snp.makeConstraints {
            $0.edges.equalToSuperview()
        }
-       
+
        contentView.snp.makeConstraints {
            $0.edges.equalTo(scrollView.contentLayoutGuide)
            $0.width.equalTo(scrollView.frameLayoutGuide)
        }
-       
+
        let myBooksStack = UIStackView(arrangedSubviews: [addMyBooksButton, addMyBooksCollectionView])
        myBooksStack.axis = .horizontal
        myBooksStack.alignment = .center
@@ -134,13 +136,13 @@ class HomeViewController: UIViewController {
            programingBooksLable,
            programingBooksCollectionView
        ])
-       
+
        mainStackView.axis = .vertical
-       mainStackView.spacing = 16
+       mainStackView.spacing = 20
        mainStackView.alignment = .fill
-       
+
        contentView.addSubview(mainStackView)
-       
+
        mainStackView.snp.makeConstraints {
            $0.top.equalToSuperview().offset(20)
            $0.leading.equalToSuperview().offset(16)
@@ -156,7 +158,7 @@ class HomeViewController: UIViewController {
        programingBooksCollectionView.snp.makeConstraints {
            $0.height.equalTo(200)
        }
-       
+
        addMyBooksButton.snp.makeConstraints {
            $0.width.height.equalTo(30)
        }
@@ -184,9 +186,12 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
        }
    }
 
-   private func configureGradedBookCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+   private func configureGradedBookCell(for collectionView: UICollectionView, at
+                                        indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
-      
+
+       cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+
        let book = ProcessingBookJSON.shared.gradedBooks()[indexPath.item]
 
        let imageView = UIImageView()
@@ -246,9 +251,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
        return cell
    }
 
-   private func configureMonthBookCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+   private func configureMonthBookCell(for collectionView: UICollectionView, at
+                                       indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
-    
+
        let book = ProcessingBookJSON.shared.books[indexPath.item + 5]
 
        let imageView = UIImageView()
@@ -296,9 +302,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
        return cell
    }
 
-   private func configureProgrammingBookCell(for collectionView: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
+   private func configureProgrammingBookCell(for collectionView: UICollectionView, at
+                                             indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
-       
+
        let book = ProcessingBookJSON.shared.books[indexPath.item]
 
        let imageView = UIImageView()
@@ -345,7 +352,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
        return cell
    }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell tapped at index: \(indexPath)")
         

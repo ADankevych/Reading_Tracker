@@ -36,7 +36,7 @@ final class ProcessingQuoteJSON {
 
         let contents = try JSONEncoder().encode(self.quotes)
         try contents.write(to: quotesPath)
-//        print("Path \(quotesPath)")
+        print("Path Quotes \(quotesPath)")
     }
 
     func addQuote(quote: Quote) throws {
