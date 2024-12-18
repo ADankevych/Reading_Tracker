@@ -32,7 +32,7 @@ class ProfileViewController: UIViewController {
         let button = UIButton(type: .system)
         button.backgroundColor = .lightGreen
         button.layer.cornerRadius = 20
-        button.addTarget(ProfileViewController.self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
 
