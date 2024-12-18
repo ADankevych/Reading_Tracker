@@ -230,6 +230,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
            $0.right.equalTo(cell.contentView).offset(-5)
            $0.bottom.lessThanOrEqualToSuperview().offset(-5)
        }
+       
+       if book.like {
+           let heartIcon = UIImageView(image: UIImage(systemName: "heart.fill"))
+           heartIcon.tintColor = .red
+           cell.contentView.addSubview(heartIcon)
+
+           heartIcon.snp.makeConstraints {
+               $0.width.height.equalTo(20)
+               $0.top.equalTo(cell.contentView).offset(15)
+               $0.right.equalTo(cell.contentView).offset(-22)
+           }
+       }
 
        return cell
    }
