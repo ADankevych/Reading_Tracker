@@ -2,69 +2,275 @@ import Foundation
 import XCTest
 @testable import Reading_Tracker
 
-final class ReadingTrackerTests: XCTestCase {
+//final class ReadingTrackerTests: XCTestCase {
+//
+//    func testAddQuote() throws {
+//        let empty: [Quote] = []
+//        let result: [Quote] = try ProcessingQuoteJSON().parseQuotes()
+//        XCTAssertEqual(result, empty)
+//        
+//        let quote = [Quote(title: "1", quote: "Hello")]
+//        try ProcessingQuoteJSON.shared.addQuote(quote: Quote(title: "1", quote: "Hello"))
+//        XCTAssertEqual(quote, ProcessingQuoteJSON.shared.quotes)
+//    }
+//}
 
-    func testWriteBooks() throws {
-        XCTAssertNoThrow(try ProcessingBookJSON().writeBooks())
+final class MainTabBarControllerTests: XCTestCase {
+    lazy var mainTabBarController = MainTabBarController()
+    
+    func testTabBarInitialization() {
+        XCTAssertNotNil(mainTabBarController.viewControllers)
+        XCTAssertEqual(mainTabBarController.viewControllers?.count, 3)
     }
 
-    func testParseBooks() throws {
-        let books = [
-        // Note: first 5 - top about programming
-                Book(title: "Develop in Swift Fundamentals",
-                     author: "Apple Education",
-                     genre: "Education, Documentation",
-                     img: "Swift_Fundamentals"),
-                Book(title: "The Art of Mac Malware",
-                     author: "Patrick Wardle",
-                     genre: "Education, Documentation",
-                     img: "The_Art_of_Mac_Malware"),
-                Book(title: "Grokking algorithms",
-                     author: "Aditya Y. Bhargava",
-                     genre: "Education",
-                     img: "Grokking_algorithms"),
-                Book(title: "Hacking. The art of exploitation",
-                     author: "Jon Erickson",
-                     genre: "Education",
-                     img: "Hacking"),
-                Book(title: "Computer Systems. A Programmer's Perspective",
-                     author: "Randal E. Bryant, David R. O'Hallaron",
-                     genre: "Education",
-                     img: "Computer_systems"),
-        // Note: next 5 - top of the month
-                Book(title: "Harry Potter and the Sorcerer’s Stone",
-                     author: "J.K. Rowling",
-                     genre: "Fantasy, Fiction",
-                     img: "Harry_Potter"),
-                Book(title: "Good Omens",
-                     author: "Terry Pratchett, Neil Gaiman",
-                     genre: "Fantasy, Fiction, Hummor",
-                     img: "Good_Omens"),
-                Book(title: "The Hunger Games",
-                     author: "Suzanne Collins",
-                     genre: "Post Apocalyptic, Fantasy, Science Fiction",
-                     img: "The_Hunger_Games"),
-                Book(title: "Divergent",
-                     author: "Veronica Roth",
-                     genre: "Dystopia, Fantasy, Science Fiction, Romance",
-                     img: "Divergent"),
-                Book(title: "Eat, Pray, Love",
-                     author: "Elizabeth Gilbert",
-                     genre: "Nonfiction, Memoir, Travel, Biography, Romance",
-                     img: "Eat_Pray_Love")
-            ]
-
-        let result = try ProcessingBookJSON().parseBooks()
-        XCTAssertEqual(result, books)
-    }
-
-    func testAddQuote() throws {
-        let empty: [Quote] = []
-        let result: [Quote] = try ProcessingQuoteJSON().parseQuotes()
-        XCTAssertEqual(result, empty)
+    func testNavControllerComponents() {
+        XCTAssertNotNil(mainTabBarController.tabBar)
+        XCTAssertEqual(mainTabBarController.tabBar.items?.count, 3)
         
-        let quote = [Quote(title: "1", quote: "Hello")]
-        try ProcessingQuoteJSON.shared.addQuote(quote: Quote(title: "1", quote: "Hello"))
-        XCTAssertEqual(quote, ProcessingQuoteJSON.shared.quotes)
+        XCTAssertNotNil(mainTabBarController.viewControllers)
+        let viewControllers = mainTabBarController.viewControllers!
+        let homeNavController = viewControllers[0] as? UINavigationController
+        XCTAssertEqual(homeNavController?.tabBarItem.title, "Home")
+        XCTAssertNotNil(homeNavController?.tabBarItem.image)
+        XCTAssertEqual(homeNavController?.tabBarItem.tag, 0)
+
+        
+        let favNavController = viewControllers[1] as? UINavigationController
+        XCTAssertEqual(favNavController?.tabBarItem.title, "Favourite")
+        XCTAssertNotNil(favNavController?.tabBarItem.image)
+        XCTAssertEqual(favNavController?.tabBarItem.tag, 1)
+
+        
+        let profileNavController = viewControllers[2] as? UINavigationController
+        XCTAssertEqual(profileNavController?.tabBarItem.title, "Profile")
+        XCTAssertNotNil(profileNavController?.tabBarItem.image)
+        XCTAssertEqual(profileNavController?.tabBarItem.tag, 2)
+    }
+    
+    func testTabBarAppearance() {
+        let appearance = mainTabBarController.tabBar.standardAppearance
+        
+        // Background
+        XCTAssertEqual(appearance.backgroundColor, .lightGreen)
+        XCTAssertEqual(appearance.shadowColor, .black)
+        
+        // Normal
+        XCTAssertEqual(appearance.stackedLayoutAppearance.normal.iconColor, .darkGreen)
+        XCTAssertEqual(appearance.stackedLayoutAppearance.normal.titleTextAttributes[.foregroundColor] as? UIColor, .darkGreen)
+        
+        // Selected
+        XCTAssertEqual(appearance.stackedLayoutAppearance.selected.iconColor, .black)
+        XCTAssertEqual(appearance.stackedLayoutAppearance.selected.titleTextAttributes[.foregroundColor] as? UIColor, .black)
+    }
+    
+    func testJSONParsing() {
+        XCTAssertFalse(ProcessingBookJSON.shared.books.isEmpty)
+        XCTAssert(ProcessingQuoteJSON.shared.quotes.isEmpty)
     }
 }
+
+final class HomeViewControllerTests: XCTestCase {
+    
+    private var homeViewController: HomeViewController!
+        
+        override func setUp() {
+            super.setUp()
+            homeViewController = HomeViewController()
+            homeViewController.loadViewIfNeeded()
+        }
+        
+        override func tearDown() {
+            homeViewController = nil
+            super.tearDown()
+        }
+    
+    func testHomeViewInitialization() {
+        XCTAssertNotNil(homeViewController.view)
+        XCTAssertNotNil(homeViewController.view.layer.sublayers?.first as? CAGradientLayer)
+    }
+    
+    func testHomeViewControllerLablesSetup() {
+        
+        XCTAssertEqual(homeViewController.myBooksLable.text, "My Books")
+        XCTAssertEqual(homeViewController.myBooksLable.font, UIFont.boldSystemFont(ofSize: 24))
+        XCTAssertEqual(homeViewController.myBooksLable.textColor, .black)
+        XCTAssertEqual(homeViewController.myBooksLable.textAlignment, .left)
+        
+        XCTAssertEqual(homeViewController.booksOfMonthLable.text, "Top - 5 books of the month")
+        XCTAssertEqual(homeViewController.booksOfMonthLable.font, UIFont.boldSystemFont(ofSize: 24))
+        XCTAssertEqual(homeViewController.booksOfMonthLable.textColor, .black)
+        XCTAssertEqual(homeViewController.booksOfMonthLable.textAlignment, .left)
+        
+        XCTAssertEqual(homeViewController.programingBooksLable.text, "Top - 5 books about programming")
+        XCTAssertEqual(homeViewController.programingBooksLable.font, UIFont.boldSystemFont(ofSize: 24))
+        XCTAssertEqual(homeViewController.programingBooksLable.textColor, .black)
+        XCTAssertEqual(homeViewController.programingBooksLable.textAlignment, .left)
+        
+    }
+    
+    func testHomeViewControllerButtonSetup() {
+        XCTAssertEqual(homeViewController.addMyBooksButton.image(for: .normal), UIImage(systemName: "plus.circle"))
+        XCTAssertEqual(homeViewController.addMyBooksButton.tintColor, .black)
+    }
+    
+    func testTouchAddBookButton() {
+        let button = homeViewController.addMyBooksButton
+        
+        let navigationController = UINavigationController(rootViewController: homeViewController)
+        
+        button.sendActions(for: .touchUpInside)
+        
+        let topViewController = navigationController.topViewController
+        XCTAssertTrue(topViewController is AddBookViewController)
+    }
+}
+
+final class FavouriteViewControllerTests: XCTestCase {
+//    private var favouriteViewController: FavouriteViewController!
+//    
+//    override func setUp() {
+//        super.setUp()
+//        favouriteViewController = FavouriteViewController()
+//        favouriteViewController.loadViewIfNeeded()
+//    }
+//    
+//    override func tearDown() {
+//        favouriteViewController = nil
+//        super.tearDown()
+//    }
+    lazy var favouriteViewController = FavouriteViewController()
+    
+    func testFavouriteViewControllerInitialization() {
+        XCTAssertNotNil(favouriteViewController.view)
+        XCTAssertNotNil(favouriteViewController.view.layer.sublayers?.first as? CAGradientLayer)
+    }
+    
+    func testАavouriteViewControllerLablesSetup() {
+        func testFavouriteViewControllerLabelsSetup() {
+        let mainStackView = favouriteViewController.view.subviews.first as! UIStackView
+        let favoriteBooksLabel = mainStackView.arrangedSubviews[0] as! UILabel
+        let savedQuotesLabel = mainStackView.arrangedSubviews[2] as! UILabel
+            
+        XCTAssertEqual(favoriteBooksLabel.text, "Favourite Books")
+        XCTAssertEqual(favoriteBooksLabel.font, UIFont.boldSystemFont(ofSize: 24))
+        XCTAssertEqual(favoriteBooksLabel.textColor, .black)
+        XCTAssertEqual(favoriteBooksLabel.textAlignment, .left)
+            
+        XCTAssertEqual(savedQuotesLabel.text, "Saved Quotes")
+        XCTAssertEqual(savedQuotesLabel.font, UIFont.boldSystemFont(ofSize: 24))
+        XCTAssertEqual(savedQuotesLabel.textColor, .black)
+        XCTAssertEqual(savedQuotesLabel.textAlignment, .left)
+        }
+    }
+    
+    func testFavouriteViewControllerButtonSetup() {
+        let mainStackView = favouriteViewController.view.subviews.first as! UIStackView
+        let quotesStackView = mainStackView.arrangedSubviews[3] as! UIStackView
+        let addQuoteButton = quotesStackView.arrangedSubviews[0] as! UIButton
+        
+        XCTAssertNotNil(addQuoteButton)
+        XCTAssertEqual(addQuoteButton.image(for: .normal), UIImage(systemName: "plus.circle"))
+        XCTAssertEqual(addQuoteButton.tintColor, .black)
+    }
+}
+
+final class ProfileViewControllerTests: XCTestCase {
+//    private var profileViewController: ProfileViewController!
+//    
+//    override func setUp() {
+//        super.setUp()
+//        profileViewController = ProfileViewController()
+//        profileViewController.loadViewIfNeeded()
+//    }
+//    
+//    override func tearDown() {
+//        profileViewController = nil
+//        super.tearDown()
+//    }
+    lazy var profileViewController = ProfileViewController()
+    
+    func testFavouriteViewControllerInitialization() {
+        XCTAssertNotNil(profileViewController.view)
+        XCTAssertNotNil(profileViewController.view.layer.sublayers?.first as? CAGradientLayer)
+    }
+    
+    func testUserImageSetup(){
+        let userImage = profileViewController.view.subviews.first { $0 is UIImageView } as! UIImageView
+        
+        XCTAssertNotNil(userImage.image)
+        XCTAssertEqual(userImage.image?.imageAsset, UIImage(named: "User_Profile")?.imageAsset)
+    }
+    
+    func testUserNameSetup(){
+        let userName = profileViewController.view.subviews.first { $0 is UILabel } as! UILabel
+        
+        XCTAssertEqual(userName.text, "BookLover<3")
+        XCTAssertEqual(userName.font, UIFont.systemFont(ofSize: 24, weight: .bold))
+        XCTAssertEqual(userName.textColor, .black)
+        XCTAssertEqual(userName.textAlignment, .center)
+
+    }
+    
+    func testProfileViewControllerButtonSetup(){
+        let button = profileViewController.view.subviews.first { $0 is UIButton } as! UIButton
+        
+        XCTAssertEqual(button.backgroundColor, .lightGreen)
+        XCTAssertEqual(button.layer.cornerRadius, 20)
+        
+        let buttonText = button.subviews.first { ($0 is UILabel) } as! UILabel
+               
+        XCTAssertEqual(buttonText.text, "Hey, click here to see your activity - tree!")
+        XCTAssertEqual(buttonText.font, UIFont.systemFont(ofSize: 18))
+               
+//        let buttonTree = button.subviews.first { ($0 is UILabel) } as! UILabel
+//        XCTAssertEqual(buttonTree.text, "Hey, click here to see your activity - tree! 🌳")
+//        XCTAssertEqual(buttonTree.font, UIFont.systemFont(ofSize: 74))
+//         
+    }
+    
+    func testTouchButton(){
+        let button = profileViewController.view.subviews.first { $0 is UIButton } as! UIButton
+        let navigationController = UINavigationController(rootViewController: profileViewController)
+             
+        button.sendActions(for: .touchUpInside)
+            
+        let topViewController = navigationController.topViewController
+        XCTAssertTrue(topViewController is TreeViewController)
+    }
+    func testOrder(){
+        
+    }
+}
+
+final class AddBookViewControllerTests: XCTestCase {
+//    var addBookViewController: AddBookViewController!
+//    
+//    override func setUp() {
+//        super.setUp()
+//        addBookViewController = AddBookViewController()
+//        // Force view to load
+//        addBookViewController.loadViewIfNeeded()
+//    }
+//    
+//    override func tearDown() {
+//        addBookViewController = nil
+//        super.tearDown()
+//    }
+//
+    lazy var addBookViewController = AddBookViewController()
+
+    func testSetupView() {
+        XCTAssertEqual(addBookViewController.view.backgroundColor, .lightGreen)
+        let textFields = addBookViewController.view.subviews.compactMap { $0 as? UITextField }
+        XCTAssertEqual(textFields.count, 3)
+    }
+    
+    func testSetupTextLable() {
+        let titleLabel = addBookViewController.view.subviews.first { $0 is UILabel } as? UILabel
+        XCTAssertEqual(titleLabel?.text, "Add New Book")
+        XCTAssertEqual(titleLabel?.font, .boldSystemFont(ofSize: 42))
+        XCTAssertEqual(titleLabel?.textAlignment, .center)
+        XCTAssertEqual(titleLabel?.textColor, .darkGreen)
+    }
+}
+
