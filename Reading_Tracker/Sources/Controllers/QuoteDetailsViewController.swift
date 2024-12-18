@@ -24,7 +24,7 @@ class QuoteDetailsViewController: UIViewController {
     private let quoteText: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.italicSystemFont(ofSize: 16)
+        label.font = UIFont.italicSystemFont(ofSize: 20)
         label.textColor = .black
         label.numberOfLines = 0
         return label
@@ -33,7 +33,7 @@ class QuoteDetailsViewController: UIViewController {
     private let quoteBookTitle: UILabel = {
         let labelTitle = UILabel()
         labelTitle.textAlignment = .center
-        labelTitle.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        labelTitle.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         labelTitle.textColor = .gray
         labelTitle.numberOfLines = 0
         return labelTitle
@@ -56,6 +56,7 @@ class QuoteDetailsViewController: UIViewController {
     }
 
     private func setupView() {
+        view.addSubview(blockQuote)
         view.addSubview(quoteText)
         view.addSubview(quoteBookTitle)
     }
@@ -72,9 +73,9 @@ class QuoteDetailsViewController: UIViewController {
         }
 
         quoteText.snp.makeConstraints {
-            $0.top.equalTo(blockQuote).offset(20)
-            $0.leading.equalTo(blockQuote).offset(20)
-            $0.trailing.equalTo(blockQuote).offset(-20)
+            $0.centerX.equalTo(blockQuote)
+            $0.centerY.equalTo(blockQuote)
+            $0.trailing.equalTo(blockQuote).offset(-40)
         }
 
         quoteBookTitle.snp.makeConstraints {
