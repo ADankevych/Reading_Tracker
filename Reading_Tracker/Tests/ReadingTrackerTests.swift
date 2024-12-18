@@ -283,4 +283,12 @@ final class ParsingReloadTests: XCTestCase {
         XCTAssertEqual(result, ProcessingBookJSON.defaultBooks)
         
     }
+
+    func testReloadQuotes() {
+        ProcessingQuoteJSON.shared.reload()
+
+        let result = ProcessingQuoteJSON.shared.quotes
+        XCTAssertEqual(result, [])
+        
+    }
 }
