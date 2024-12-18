@@ -14,9 +14,10 @@ final class ProcessingBookJSON {
     let booksPath = FileManager.default.urls(for: .documentDirectory,
                     in: .userDomainMask).first!.appendingPathComponent("Books.json")
 
-    var books = [
+    var books: [Book]
+    private static var defaultBooks: [Book] = [
 // Note: first 5 - top about programming
-        Book(title: "Develop in Swift Fundamentals",
+    Book(title: "Develop in Swift Fundamentals",
              author: "Apple Education",
              genre: "Education, Documentation",
              img: "Swift_Fundamentals"),
@@ -64,17 +65,31 @@ final class ProcessingBookJSON {
             do {
                 let data = try Data(contentsOf: booksPath)
                 let loadedBooks = try JSONDecoder().decode([Book].self, from: data)
-                self.books = books + loadedBooks
-                
-                print("Books loaded from file: \(self.books)")
+                self.books = loadedBooks
             } catch {
                 print("Error loading books: \(error)")
             }
         } else {
-            print("Books file doesn't exist. Using default books.")
+            print("Books file doesn't exist. Keeping current books.")
         }
     }
-
+    
+    private init() {
+        if FileManager.default.fileExists(atPath: booksPath.path) {
+            do {
+                let data = try Data(contentsOf: booksPath)
+                let loadedBooks = try JSONDecoder().decode([Book].self, from: data)
+                self.books = loadedBooks.isEmpty ? ProcessingBookJSON.defaultBooks : loadedBooks
+            } catch {
+                print("Error loading books from file: \(error)")
+                self.books = ProcessingBookJSON.defaultBooks
+            }
+        } else {
+            print("Books file doesn't exist. Using default books.")
+            self.books = ProcessingBookJSON.defaultBooks
+        }
+    }
+    
     func parseBooks() throws -> [Book] {
         if !FileManager.default.fileExists(atPath: booksPath.path) {
             let initialContent = Data("[]".utf8)
@@ -95,12 +110,10 @@ final class ProcessingBookJSON {
 
         let contents = try JSONEncoder().encode(self.books)
         try contents.write(to: booksPath)
-        print("Path Books \(booksPath)")
+        // print("Path Books \(booksPath)")
     }
 
     func addBook(userBook: Book) throws {
-        let books = try parseBooks()
-        self.books = books
         self.books.append(userBook)
         try writeBooks()
     }
