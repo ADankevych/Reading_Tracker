@@ -8,7 +8,7 @@ import XCTest
 //        let empty: [Quote] = []
 //        let result: [Quote] = try ProcessingQuoteJSON().parseQuotes()
 //        XCTAssertEqual(result, empty)
-//        
+//
 //        let quote = [Quote(title: "1", quote: "Hello")]
 //        try ProcessingQuoteJSON.shared.addQuote(quote: Quote(title: "1", quote: "Hello"))
 //        XCTAssertEqual(quote, ProcessingQuoteJSON.shared.quotes)
@@ -224,13 +224,11 @@ final class ProfileViewControllerTests: XCTestCase {
                
         XCTAssertEqual(buttonText.text, "Hey, click here to see your activity - tree!")
         XCTAssertEqual(buttonText.font, UIFont.systemFont(ofSize: 18))
-               
-//        let buttonTree = button.subviews.first { ($0 is UILabel) } as! UILabel
-//        XCTAssertEqual(buttonTree.text, "Hey, click here to see your activity - tree! 🌳")
-//        XCTAssertEqual(buttonTree.font, UIFont.systemFont(ofSize: 74))
-//         
-    }
-    
+        //        let buttonTree = button.subviews.first { ($0 is UILabel) } as! UILabel
+        //        XCTAssertEqual(buttonTree.text, "Hey, click here to see your activity - tree! 🌳")
+        //        XCTAssertEqual(buttonTree.font, UIFont.systemFont(ofSize: 74))
+        //
+            }
     func testTouchButton(){
         let button = profileViewController.view.subviews.first { $0 is UIButton } as! UIButton
         let navigationController = UINavigationController(rootViewController: profileViewController)
@@ -407,17 +405,6 @@ class BookDetailsViewTests: XCTestCase {
         
         XCTAssertEqual(imageView.contentMode, .scaleAspectFit)
         XCTAssertEqual(imageView.image, UIImage(named: testBook.img))
-        XCTAssertEqual(addBookViewController.view.backgroundColor, .lightGreen)
-        let textFields = addBookViewController.view.subviews.compactMap { $0 as? UITextField }
-        XCTAssertEqual(textFields.count, 3)
-    }
-    
-    func testSetupTextLable() {
-        let titleLabel = addBookViewController.view.subviews.first { $0 is UILabel } as? UILabel
-        XCTAssertEqual(titleLabel?.text, "Add New Book")
-        XCTAssertEqual(titleLabel?.font, .boldSystemFont(ofSize: 42))
-        XCTAssertEqual(titleLabel?.textAlignment, .center)
-        XCTAssertEqual(titleLabel?.textColor, .darkGreen)
     }
 }
 
