@@ -15,7 +15,7 @@ final class ProcessingBookJSON {
                     in: .userDomainMask).first!.appendingPathComponent("Books.json")
 
     var books: [Book]
-    private static var defaultBooks: [Book] = [
+    static var defaultBooks: [Book] = [
 // Note: first 5 - top about programming
         Book(title: "Develop in Swift Fundamentals",
              author: "Apple Education",

@@ -274,3 +274,13 @@ final class AddBookViewControllerTests: XCTestCase {
     }
 }
 
+final class ParsingReloadTests: XCTestCase {
+
+    func testReloadBooks() {
+        ProcessingBookJSON.shared.reload()
+
+        let result = ProcessingBookJSON.shared.books
+        XCTAssertEqual(result, ProcessingBookJSON.defaultBooks)
+        
+    }
+}
