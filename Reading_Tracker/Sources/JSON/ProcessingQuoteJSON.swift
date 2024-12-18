@@ -16,6 +16,22 @@ final class ProcessingQuoteJSON {
 
     var quotes: [Quote] = []
 
+    func loadQuotes() {
+        if FileManager.default.fileExists(atPath: quotesPath.path) {
+            do {
+                let data = try Data(contentsOf: quotesPath)
+                let loadedQuotes = try JSONDecoder().decode([Quote].self, from: data)
+                self.quotes = quotes + loadedQuotes
+                
+                print("Books loaded from file: \(self.quotes)")
+            } catch {
+                print("Error loading books: \(error)")
+            }
+        } else {
+            print("Books file doesn't exist. Using default books.")
+        }
+    }
+    
     func parseQuotes() throws -> [Quote] {
         if !FileManager.default.fileExists(atPath: quotesPath.path) {
             let initialContent = Data("[]".utf8)
