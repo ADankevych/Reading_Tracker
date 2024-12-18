@@ -258,7 +258,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                                        indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
 
-       let book = ProcessingBookJSON.shared.books[indexPath.item + 5]
+       let bookIndex = indexPath.item + 5
+       guard bookIndex < ProcessingBookJSON.shared.books.count else {
+           print("Error: Index out of bounds for booksOfMonthCollectionView. Index: \(bookIndex), Total Books: \(ProcessingBookJSON.shared.books.count)")
+           return cell
+       }
+
+       let book = ProcessingBookJSON.shared.books[bookIndex]
 
        let imageView = UIImageView()
        imageView.contentMode = .scaleAspectFit
@@ -308,6 +314,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    private func configureProgrammingBookCell(for collectionView: UICollectionView, at
                                              indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
+
+       guard indexPath.item < ProcessingBookJSON.shared.books.count else {
+           print("Error: Index out of bounds for programingBooksCollectionView. Index: \(indexPath.item), Total Books: \(ProcessingBookJSON.shared.books.count)")
+           return cell
+       }
 
        let book = ProcessingBookJSON.shared.books[indexPath.item]
 
