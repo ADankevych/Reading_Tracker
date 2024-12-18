@@ -55,7 +55,6 @@ extension BookDetailsViewController: BookDetailsViewDelegate {
                 book.like = true
                 try ProcessingBookJSON.shared.likedBook(book: book)
             }
-            print("Book is now \(book.like ? "liked" : "unliked") and saved successfully.")
         } catch {
             print("Error saving like state: \(error)")
         }
@@ -70,6 +69,5 @@ extension BookDetailsViewController: BookDetailsViewDelegate {
     func didSetGrade(to grade: Int) {
         book.grade = grade
         do { try ProcessingBookJSON.shared.gradeBook(book: book, grade: grade) } catch { }
-        print("Grade set to \(grade) stars")
     }
 }

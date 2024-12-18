@@ -34,6 +34,10 @@ class HomeViewController: UIViewController {
         homeView.addMyBooksButton.addTarget(self, action: #selector(didTapAddMyBooksButton), for: .touchUpInside)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        homeView.addMyBooksCollectionView.reloadData()
+    }
+    
     @objc private func didTapAddMyBooksButton() {
         let addBookViewController = AddBookViewController()
         addBookViewController.delegate = self
@@ -241,7 +245,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Cell tapped at index: \(indexPath)")
         
         var selectedBook: Book
         if collectionView == homeView.addMyBooksCollectionView {

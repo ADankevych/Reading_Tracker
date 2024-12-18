@@ -14,7 +14,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options
                connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        print("SceneDelegate: Scene connected")
 
         window = UIWindow(windowScene: windowScene)
         let launchVC = LaunchViewController()
@@ -24,8 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.transitionToMainTabBarController()
         }
-        
-        print("SceneDelegate: Launch screen is visible")
     }
     
     private func transitionToMainTabBarController() {
@@ -34,8 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UIView.transition(with: window, duration: 1.0, options: .transitionCrossDissolve, animations: {
             window.rootViewController = mainTabBarController
         }, completion: nil)
-        
-        print("SceneDelegate: Transitioned to MainTabBarController")
     }
 
     func sceneDidDisconnect(_ scene: UIScene) { }

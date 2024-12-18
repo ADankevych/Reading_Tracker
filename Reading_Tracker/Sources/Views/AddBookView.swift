@@ -70,12 +70,22 @@ class AddBookView: UIView {
         commentsTextView.layer.borderWidth = 3
         commentsTextView.layer.cornerRadius = 8
         commentsTextView.font = .systemFont(ofSize: 22)
-        
+    
+        textViewDidChange(commentsTextView)
+
         saveButton.setTitle("Save", for: .normal)
         saveButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
         saveButton.setTitleColor(.black, for: .normal)
         
         createStarButtons()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            commentsPlaceholderLabel.isHidden = false
+        } else {
+            commentsPlaceholderLabel.isHidden = true
+        }
     }
 
     private func setupLayout() {

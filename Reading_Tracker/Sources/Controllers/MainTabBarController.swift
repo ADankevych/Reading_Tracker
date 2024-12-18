@@ -13,7 +13,6 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print("MainTabBarController loaded!")
         self.delegate = self
         let homeVC = HomeViewController()
         let homeIcon = UIImage(systemName: "house")?

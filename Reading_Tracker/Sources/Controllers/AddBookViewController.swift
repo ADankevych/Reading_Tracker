@@ -55,7 +55,6 @@ class AddBookViewController: UIViewController {
             grade: rating,
             like: false
         )
-        print("New book added: \(newBook.title)")
         
         do {
             try ProcessingBookJSON.shared.addBook(userBook: newBook)

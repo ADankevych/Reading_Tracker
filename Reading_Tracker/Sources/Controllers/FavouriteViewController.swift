@@ -129,7 +129,6 @@ class FavouriteViewController: UIViewController {
 
             do {
                 try ProcessingQuoteJSON.shared.addQuote(quote: newQuote)
-                print("\(newQuote.title), \(newQuote.quote)")
                 self.quotesCollectionView.reloadData()
             } catch {
                 let errorAlert = UIAlertController(title: "Error",
