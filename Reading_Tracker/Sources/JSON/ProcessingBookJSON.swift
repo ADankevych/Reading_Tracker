@@ -95,18 +95,6 @@ final class ProcessingBookJSON {
         }
     }
 
-    func parseBooks() throws -> [Book] {
-        if !FileManager.default.fileExists(atPath: booksPath.path) {
-            let initialContent = Data("[]".utf8)
-            try initialContent.write(to: booksPath)
-        }
-
-        let contents = try Data(contentsOf: booksPath)
-        let books = try JSONDecoder().decode([Book].self, from: contents)
-
-        return books
-    }
-
     func writeBooks() throws {
         if !FileManager.default.fileExists(atPath: booksPath.path) {
             let initialContent = Data("[]".utf8)
