@@ -25,6 +25,7 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "CFBundleDisplayName": "ReLeaf"
                 ]
             ),
 
