@@ -85,7 +85,7 @@ class TreeViewController: UIViewController {
     private func setupLayout() {
         view.addSubview(booksReadLabel)
         booksReadLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(80)
+            $0.top.equalToSuperview().offset(90)
             $0.centerX.equalToSuperview()
         }
     }
@@ -144,14 +144,13 @@ class TreeViewController: UIViewController {
     
     private func updateBooksReadLabel() {
         let numberOfBooks = ProcessingBookJSON.shared.gradedBooks().count
+        let numberOfTrees = numberOfBooks / 10 + 1
         if numberOfBooks == 0 {
-            booksReadLabel.text = " \(numberOfBooks) book \n Looking like \n a lot of work to do😉 "
-        } else if numberOfBooks == 1 {
-            booksReadLabel.text = " \(numberOfBooks) book \n Yay😍"
+            booksReadLabel.text = "\(numberOfBooks) books \n Looking like \n a lot of work to do😉 "
         } else {
-            booksReadLabel.text = " \(numberOfBooks) books \n Yay🥳"
+            booksReadLabel.text = "Books: \(numberOfBooks)\n Trees: \(numberOfTrees)\nYay🥳"
         }
-        booksReadLabel.font = .boldSystemFont(ofSize: 32)
+        booksReadLabel.font = .boldSystemFont(ofSize: 28)
     }
 
     private func setupBackground() {
