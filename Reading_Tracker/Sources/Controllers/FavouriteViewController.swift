@@ -179,6 +179,8 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         cell.layer.cornerRadius = 8
 
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+
         let book = ProcessingBookJSON.shared.favouriteBooks()[indexPath.item]
 
         let imageView = UIImageView()
@@ -216,6 +218,9 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
     private func configureQuoteCell(for collectionView: UICollectionView, at indexPath:
                         IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+
         cell.layer.cornerRadius = 8
         cell.backgroundColor = .lightGreen
 
@@ -253,4 +258,12 @@ extension FavouriteViewController: UICollectionViewDataSource, UICollectionViewD
         return cell
     }
 
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == quotesCollectionView {
+            let quote = ProcessingQuoteJSON.shared.quotes[indexPath.item]
+            let quoteDetailsVC = QuoteDetailsViewController(quote: quote)
+
+            navigationController?.pushViewController(quoteDetailsVC, animated: true)
+        }
+    }
 }
