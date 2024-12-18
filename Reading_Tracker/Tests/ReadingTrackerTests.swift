@@ -407,5 +407,35 @@ class BookDetailsViewTests: XCTestCase {
         
         XCTAssertEqual(imageView.contentMode, .scaleAspectFit)
         XCTAssertEqual(imageView.image, UIImage(named: testBook.img))
+        XCTAssertEqual(addBookViewController.view.backgroundColor, .lightGreen)
+        let textFields = addBookViewController.view.subviews.compactMap { $0 as? UITextField }
+        XCTAssertEqual(textFields.count, 3)
+    }
+    
+    func testSetupTextLable() {
+        let titleLabel = addBookViewController.view.subviews.first { $0 is UILabel } as? UILabel
+        XCTAssertEqual(titleLabel?.text, "Add New Book")
+        XCTAssertEqual(titleLabel?.font, .boldSystemFont(ofSize: 42))
+        XCTAssertEqual(titleLabel?.textAlignment, .center)
+        XCTAssertEqual(titleLabel?.textColor, .darkGreen)
+    }
+}
+
+final class ParsingReloadTests: XCTestCase {
+
+    func testReloadBooks() {
+        ProcessingBookJSON.shared.reload()
+
+        let result = ProcessingBookJSON.shared.books
+        XCTAssertEqual(result, ProcessingBookJSON.defaultBooks)
+        
+    }
+
+    func testReloadQuotes() {
+        ProcessingQuoteJSON.shared.reload()
+
+        let result = ProcessingQuoteJSON.shared.quotes
+        XCTAssertEqual(result, [])
+        
     }
 }

@@ -64,4 +64,12 @@ final class ProcessingQuoteJSON {
     func amountOfQuotes() -> Int {
         return self.quotes.count
     }
+
+    func reload() {
+        self.quotes = []
+        do {
+            try writeQuotes()
+        }
+        catch { }
+    }
 }
