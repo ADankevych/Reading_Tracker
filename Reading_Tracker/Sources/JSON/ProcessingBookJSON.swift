@@ -58,6 +58,22 @@ final class ProcessingBookJSON {
              genre: "Nonfiction, Memoir, Travel, Biography, Romance",
              img: "Eat_Pray_Love")
     ]
+    
+    func loadBooks() {
+        if FileManager.default.fileExists(atPath: booksPath.path) {
+            do {
+                let data = try Data(contentsOf: booksPath)
+                let loadedBooks = try JSONDecoder().decode([Book].self, from: data)
+                self.books = books + loadedBooks
+                
+                print("Books loaded from file: \(self.books)")
+            } catch {
+                print("Error loading books: \(error)")
+            }
+        } else {
+            print("Books file doesn't exist. Using default books.")
+        }
+    }
 
     func parseBooks() throws -> [Book] {
         if !FileManager.default.fileExists(atPath: booksPath.path) {
