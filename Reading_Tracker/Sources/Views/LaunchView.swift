@@ -62,54 +62,54 @@ class LaunchView: UIView {
         layer.addSublayer(leafLayer)
     }
 
-    func makeHill(height: CGFloat) -> UIBezierPath {
-        let path = UIBezierPath()
-        let width = bounds.width
-        let maxY = bounds.height - 30
-        let centerY = maxY + 300
-
-        path.move(to: CGPoint(x: 0, y: maxY + 30))
-        path.addArc(
-            withCenter: CGPoint(x: width/2, y: centerY),
-            radius: width * 1.2,
-            startAngle: 180,
-            endAngle: 0,
-            clockwise: true
-        )
-        path.addLine(to: CGPoint(x: width, y: maxY + 30))
-        path.addLine(to: CGPoint(x: 0, y: maxY + 30))
-        path.close()
-
-        return path
-    }
-
-    func makeTree(height: CGFloat) -> UIBezierPath {
-        let path = UIBezierPath()
-        let centerX = bounds.midX
-        let bottomY = bounds.height - 210
-        let bottomWidth: CGFloat = 15
-        let topWidth: CGFloat = 8
-
-        path.move(to: CGPoint(x: centerX - bottomWidth/2, y: bottomY))
-        path.addLine(to: CGPoint(x: centerX - topWidth/2, y: bottomY - height))
-        path.addLine(to: CGPoint(x: centerX + topWidth/2, y: bottomY - height))
-        path.addLine(to: CGPoint(x: centerX + bottomWidth/2, y: bottomY))
-        path.close()
-
-        return path
-    }
-
-    func makeLeaf(scale: CGFloat) -> UIBezierPath {
-        let centerX = bounds.midX
-        let centerY = bounds.height - 390
-        let radius: CGFloat = 80 * scale
-
-        return UIBezierPath(
-            arcCenter: CGPoint(x: centerX, y: centerY),
-            radius: radius,
-            startAngle: 0,
-            endAngle: 360,
-            clockwise: true
-        )
-    }
+    private func makeHill(height: CGFloat) -> UIBezierPath {
+       let path = UIBezierPath()
+       let width = bounds.width
+       let maxY = bounds.height - 30
+       let centerY = maxY + 300
+       
+       path.move(to: CGPoint(x: 0, y: maxY + 30))
+       path.addArc(
+           withCenter: CGPoint(x: width/2, y: centerY),
+           radius: width * 1.2,
+           startAngle: 180,
+           endAngle: 0,
+           clockwise: true
+       )
+       path.addLine(to: CGPoint(x: width, y: maxY + 30))
+       path.addLine(to: CGPoint(x: 0, y: maxY + 30))
+       path.close()
+       
+       return path
+   }
+   
+   private func makeTree(height: CGFloat) -> UIBezierPath {
+       let path = UIBezierPath()
+       let centerX = bounds.midX
+       let bottomY = bounds.height - 210
+       let bottomWidth: CGFloat = 15
+       let topWidth: CGFloat = 8
+       
+       path.move(to: CGPoint(x: centerX - bottomWidth/2, y: bottomY))
+       path.addLine(to: CGPoint(x: centerX - topWidth/2, y: bottomY - height))
+       path.addLine(to: CGPoint(x: centerX + topWidth/2, y: bottomY - height))
+       path.addLine(to: CGPoint(x: centerX + bottomWidth/2, y: bottomY))
+       path.close()
+          
+          return path
+      }
+   
+   private func makeLeaf(scale: CGFloat) -> UIBezierPath {
+           let centerX = bounds.midX
+           let centerY = bounds.height - 390
+           let radius: CGFloat = 80 * scale
+           
+           return UIBezierPath(
+               arcCenter: CGPoint(x: centerX, y: centerY),
+               radius: radius,
+               startAngle: 0,
+               endAngle: 360,
+               clockwise: true
+           )
+       }
 }
