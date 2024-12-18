@@ -126,19 +126,19 @@ final class HomeViewControllerTests: XCTestCase {
 }
 
 final class FavouriteViewControllerTests: XCTestCase {
-//    private var favouriteViewController: FavouriteViewController!
-//    
-//    override func setUp() {
-//        super.setUp()
-//        favouriteViewController = FavouriteViewController()
-//        favouriteViewController.loadViewIfNeeded()
-//    }
-//    
-//    override func tearDown() {
-//        favouriteViewController = nil
-//        super.tearDown()
-//    }
-    lazy var favouriteViewController = FavouriteViewController()
+    private var favouriteViewController: FavouriteViewController!
+    
+    override func setUp() {
+        super.setUp()
+        favouriteViewController = FavouriteViewController()
+        favouriteViewController.loadViewIfNeeded()
+    }
+    
+    override func tearDown() {
+        favouriteViewController = nil
+        super.tearDown()
+    }
+//    lazy var favouriteViewController = FavouriteViewController()
     
     func testFavouriteViewControllerInitialization() {
         XCTAssertNotNil(favouriteViewController.view)
@@ -175,19 +175,19 @@ final class FavouriteViewControllerTests: XCTestCase {
 }
 
 final class ProfileViewControllerTests: XCTestCase {
-//    private var profileViewController: ProfileViewController!
-//    
-//    override func setUp() {
-//        super.setUp()
-//        profileViewController = ProfileViewController()
-//        profileViewController.loadViewIfNeeded()
-//    }
-//    
-//    override func tearDown() {
-//        profileViewController = nil
-//        super.tearDown()
-//    }
-    lazy var profileViewController = ProfileViewController()
+    private var profileViewController: ProfileViewController!
+    
+    override func setUp() {
+        super.setUp()
+        profileViewController = ProfileViewController()
+        profileViewController.loadViewIfNeeded()
+    }
+    
+    override func tearDown() {
+        profileViewController = nil
+        super.tearDown()
+    }
+//    lazy var profileViewController = ProfileViewController()
     
     func testFavouriteViewControllerInitialization() {
         XCTAssertNotNil(profileViewController.view)
@@ -237,32 +237,31 @@ final class ProfileViewControllerTests: XCTestCase {
         let topViewController = navigationController.topViewController
         XCTAssertTrue(topViewController is TreeViewController)
     }
-    func testOrder(){
-        
-    }
+
 }
 
 final class AddBookViewControllerTests: XCTestCase {
-//    var addBookViewController: AddBookViewController!
-//    
-//    override func setUp() {
-//        super.setUp()
-//        addBookViewController = AddBookViewController()
-//        // Force view to load
-//        addBookViewController.loadViewIfNeeded()
-//    }
-//    
-//    override func tearDown() {
-//        addBookViewController = nil
-//        super.tearDown()
-//    }
-//
-    lazy var addBookViewController = AddBookViewController()
+    var addBookViewController: AddBookViewController!
+    
+    override func setUp() {
+        super.setUp()
+        addBookViewController = AddBookViewController()
+        addBookViewController.loadViewIfNeeded()
+    }
+    
+    override func tearDown() {
+        addBookViewController = nil
+        super.tearDown()
+    }
 
     func testSetupView() {
         XCTAssertEqual(addBookViewController.view.backgroundColor, .lightGreen)
         let textFields = addBookViewController.view.subviews.compactMap { $0 as? UITextField }
         XCTAssertEqual(textFields.count, 3)
+        XCTAssertTrue(textFields.contains { $0.placeholder == "Enter book title" })
+        XCTAssertTrue(textFields.contains { $0.placeholder == "Enter author name" })
+        XCTAssertTrue(textFields.contains { $0.placeholder == "Enter genre" })
+        
     }
     
     func testSetupTextLable() {
@@ -272,5 +271,96 @@ final class AddBookViewControllerTests: XCTestCase {
         XCTAssertEqual(titleLabel?.textAlignment, .center)
         XCTAssertEqual(titleLabel?.textColor, .darkGreen)
     }
+    
+    func testAddBookViewControllerSetupButton() {
+        let startButton = addBookViewController.view.subviews.first { $0 is UIButton } as? UIButton
+        
+        XCTAssertNotNil(startButton)
+    
+        XCTAssertNotNil(startButton!.image(for: .normal))
+        XCTAssertNotNil(startButton!.image(for: .selected))
+        XCTAssertEqual(startButton?.tintColor, .yellow)
+        XCTAssertEqual(startButton?.titleLabel?.font, UIFont.systemFont(ofSize: 18, weight: .regular))
+    }
+    
+    func testSaveButtonValidation() {
+        let saveButton = addBookViewController.view.subviews.first {($0 is UIButton)} as? UIButton
+            
+        saveButton?.sendActions(for: .touchUpInside)
+            
+        let titleTextField = addBookViewController.view.subviews.first {($0 as? UITextField)?.placeholder == "Enter book title"} as? UITextField
+        titleTextField?.text = "Test Book"
+        saveButton?.sendActions(for: .touchUpInside)
+    }
 }
 
+final class BookDetailsViewControllerTests: XCTestCase {
+    
+    private var testBook: Book!
+    private var bookDetailsViewController: BookDetailsViewController!
+        
+    override func setUp() {
+        super.setUp()
+        testBook = Book(
+            title: "Test Book",
+            author: "Test Author",
+            genre: "Test Genre",
+            extraComments: "Test Comments",
+            img: "test_image",
+            like: false
+        )
+        bookDetailsViewController = BookDetailsViewController(book: testBook)
+        bookDetailsViewController.loadViewIfNeeded()
+    }
+        
+    override func tearDown() {
+        bookDetailsViewController = nil
+        testBook = nil
+        super.tearDown()
+    }
+    
+    func testLikeButtonTouch() {
+        
+        let button = bookDetailsViewController.view.subviews.first { $0 is UIButton } as! UIButton
+        XCTAssertFalse(testBook.like)
+            
+        button.sendActions(for: .touchUpInside)
+        XCTAssertEqual(testBook.like, true)
+    }
+    
+    func testBookDetailsViewControllerInitialization() {
+        XCTAssertNotNil(bookDetailsViewController)
+        XCTAssertEqual(bookDetailsViewController.book.title, testBook.title)
+        XCTAssertEqual(bookDetailsViewController.book.author, testBook.author)
+        XCTAssertEqual(bookDetailsViewController.book.genre, testBook.genre)
+    }
+    
+    func testBookLabels() {
+    
+        let bookNameLabel = bookDetailsViewController.view.subviews.first { ($0 as? UILabel)?.text == testBook.title } as! UILabel
+            
+        XCTAssertEqual(bookNameLabel.font, .boldSystemFont(ofSize: 28))
+        XCTAssertEqual(bookNameLabel.textColor, .black)
+        
+        let authorLabel = bookDetailsViewController.view.subviews.first { ($0 as? UILabel)?.text == testBook.author } as! UILabel
+        
+        XCTAssertEqual(authorLabel.font, .systemFont(ofSize: 20))
+        XCTAssertEqual(authorLabel.textColor, .black)
+            
+        let genreLabel = bookDetailsViewController.view.subviews.first { ($0 as? UILabel)?.text == testBook.genre } as! UILabel
+        XCTAssertEqual(genreLabel.font, .systemFont(ofSize: 18))
+        XCTAssertEqual(genreLabel.textColor, .black)
+    }
+    
+    func testLikeButtonSetup() {
+            let button = bookDetailsViewController.view.subviews.first { $0 is UIButton } as! UIButton
+            XCTAssertNotNil(button.image(for: .normal))
+            XCTAssertEqual(button.tintColor, .black)
+            XCTAssertEqual(button.backgroundColor, .clear)
+        }
+    
+    
+    func testBackGroundSetUp() {
+        XCTAssertNotNil(bookDetailsViewController.view.layer.sublayers?.first as? CAGradientLayer)
+    }
+}
