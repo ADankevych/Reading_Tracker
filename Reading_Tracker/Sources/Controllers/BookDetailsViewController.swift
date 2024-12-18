@@ -143,7 +143,7 @@ class BookDetailsViewController: UIViewController {
             $0.leading.equalTo(bookImageView)
         }
 
-        if book.like {
+        if book.grade != nil {
             commentsTitleLabel.text = "Comments: "
             commentsTextLabel.text = book.extraComments
         }
