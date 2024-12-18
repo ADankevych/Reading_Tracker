@@ -14,39 +14,166 @@ protocol AddBookDelegate: AnyObject {
 }
 
 class HomeViewController: UIViewController {
-    
-    private var homeView: HomeView!
-    
-    override func loadView() {
-        homeView = HomeView()
-        view = homeView
-    }
-    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+   
+    private let contentView = UIView()
+    private var addMyBooksCollectionView: UICollectionView!
+    private var booksOfMonthCollectionView: UICollectionView!
+    private var programingBooksCollectionView: UICollectionView!
+   
+    let gradientLayer = CAGradientLayer()
+    let myBooksLable = UILabel()
+    let booksOfMonthLable = UILabel()
+    let programingBooksLable = UILabel()
+    let addMyBooksButton = UIButton(type: .system)
+   
+    private var mainStackView: UIStackView!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        homeView.addMyBooksCollectionView.delegate = self
-        homeView.addMyBooksCollectionView.dataSource = self
-        homeView.booksOfMonthCollectionView.delegate = self
-        homeView.booksOfMonthCollectionView.dataSource = self
-        homeView.programingBooksCollectionView.delegate = self
-        homeView.programingBooksCollectionView.dataSource = self
-        homeView.addMyBooksButton.addTarget(self, action: #selector(didTapAddMyBooksButton), for: .touchUpInside)
+        setupGradient()
+        setupLables()
+        setupCollectionViews()
+        setupButton()
+        setupLayout()
+        addMyBooksCollectionView.reloadData()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        addMyBooksCollectionView.reloadData()
+    }
+   
+   private func setupGradient() {
+       gradientLayer.frame = view.bounds
+       gradientLayer.colors = [
+           UIColor(red: 0.66, green: 0.88, blue: 0.44, alpha: 1.0).cgColor,
+           UIColor(red: 0.22, green: 0.44, blue: 0.11, alpha: 1.0).cgColor
+       ]
+       gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+       gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+       view.layer.insertSublayer(gradientLayer, at: 0)
+   }
+   
+    private func setupLables() {
+
+        myBooksLable.attributedText = NSAttributedString(string: "My Books",
+                    attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        myBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
+        myBooksLable.textColor = .black
+        myBooksLable.textAlignment = .left
+
+        booksOfMonthLable.attributedText = NSAttributedString(string: "Top - 5 books of the month",
+                    attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        booksOfMonthLable.font = UIFont.boldSystemFont(ofSize: 24)
+        booksOfMonthLable.textColor = .black
+        booksOfMonthLable.textAlignment = .left
+        
+        programingBooksLable.attributedText = NSAttributedString(string: "Top - 5 books about programming",
+                    attributes: [.underlineStyle: NSUnderlineStyle.single.rawValue])
+        programingBooksLable.font = UIFont.boldSystemFont(ofSize: 24)
+        programingBooksLable.textColor = .black
+        programingBooksLable.textAlignment = .left
+    }
+
+    private func setupButton() {
+        addMyBooksButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+        addMyBooksButton.tintColor = .black
+        addMyBooksButton.addTarget(self, action: #selector(didTapAddMyBooksButton), for: .touchUpInside)
+    }
+
     @objc private func didTapAddMyBooksButton() {
         let addBookViewController = AddBookViewController()
         addBookViewController.delegate = self
         navigationController?.pushViewController(addBookViewController, animated: true)
     }
-    
+
+   private func setupCollectionViews() {
+       addMyBooksCollectionView = createCollectionView()
+       booksOfMonthCollectionView = createCollectionView()
+       programingBooksCollectionView = createCollectionView()
+
+       [addMyBooksCollectionView, booksOfMonthCollectionView, programingBooksCollectionView].forEach {
+           $0.delegate = self
+           $0.dataSource = self
+       }
+   }
+
+   private func createCollectionView() -> UICollectionView {
+       let layout = UICollectionViewFlowLayout()
+       layout.scrollDirection = .horizontal
+       layout.itemSize = CGSize(width: 150, height: 200)
+       layout.minimumLineSpacing = 16
+
+       let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+       collectionView.backgroundColor = .clear
+       collectionView.showsHorizontalScrollIndicator = false
+       collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "BookCell")
+       return collectionView
+   }
+
+   private func setupLayout() {
+       view.addSubview(scrollView)
+       scrollView.addSubview(contentView)
+       
+       scrollView.snp.makeConstraints {
+           $0.edges.equalToSuperview()
+       }
+
+       contentView.snp.makeConstraints {
+           $0.edges.equalTo(scrollView.contentLayoutGuide)
+           $0.width.equalTo(scrollView.frameLayoutGuide)
+       }
+
+       let myBooksStack = UIStackView(arrangedSubviews: [addMyBooksButton, addMyBooksCollectionView])
+       myBooksStack.axis = .horizontal
+       myBooksStack.alignment = .center
+
+       mainStackView = UIStackView(arrangedSubviews: [
+           myBooksLable,
+           myBooksStack,
+           booksOfMonthLable,
+           booksOfMonthCollectionView,
+           programingBooksLable,
+           programingBooksCollectionView
+       ])
+
+       mainStackView.axis = .vertical
+       mainStackView.spacing = 20
+       mainStackView.alignment = .fill
+
+       contentView.addSubview(mainStackView)
+
+       mainStackView.snp.makeConstraints {
+           $0.top.equalToSuperview().offset(20)
+           $0.leading.equalToSuperview().offset(16)
+           $0.trailing.equalToSuperview().offset(-16)
+           $0.bottom.equalToSuperview().offset(-20)
+       }
+       addMyBooksCollectionView.snp.makeConstraints {
+           $0.height.equalTo(200)
+       }
+       booksOfMonthCollectionView.snp.makeConstraints {
+           $0.height.equalTo(200)
+       }
+       programingBooksCollectionView.snp.makeConstraints {
+           $0.height.equalTo(200)
+       }
+
+       addMyBooksButton.snp.makeConstraints {
+           $0.width.height.equalTo(30)
+       }
+   }
 }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate {
    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       if collectionView == homeView.addMyBooksCollectionView {
+       if collectionView == addMyBooksCollectionView {
            return ProcessingBookJSON.shared.gradedBooks().count
-       } else if collectionView == homeView.booksOfMonthCollectionView {
+       } else if collectionView == booksOfMonthCollectionView {
            return 5
        } else {
            return 5
@@ -54,7 +181,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
    }
 
    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-       if collectionView == homeView.addMyBooksCollectionView {
+       if collectionView == addMyBooksCollectionView {
            return configureGradedBookCell(for: collectionView, at: indexPath)
        } else {
            return configureBookCell(for: collectionView, at: indexPath)
@@ -132,7 +259,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         guard indexPath.item < ProcessingBookJSON.shared.books.count else { return cell }
         var bookIndex = 0
-        if collectionView == homeView.booksOfMonthCollectionView {
+        if collectionView == booksOfMonthCollectionView {
             bookIndex = indexPath.item + 5
         } else {
             bookIndex = indexPath.item
@@ -186,9 +313,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Cell tapped at index: \(indexPath)")
         var selectedBook: Book
-        if collectionView == homeView.addMyBooksCollectionView {
+        if collectionView == addMyBooksCollectionView {
             selectedBook = ProcessingBookJSON.shared.gradedBooks()[indexPath.item]
-        } else if collectionView == homeView.booksOfMonthCollectionView {
+        } else if collectionView == booksOfMonthCollectionView {
             selectedBook = ProcessingBookJSON.shared.books[indexPath.item + 5]
         } else {
             selectedBook = ProcessingBookJSON.shared.books[indexPath.item]
@@ -198,11 +325,12 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         bookDetailsVC.delegate = self
         navigationController?.pushViewController(bookDetailsVC, animated: true)
     }
+
 }
 
 extension HomeViewController: AddBookDelegate {
     func didAddNewBook(_ book: Book) {
-        homeView.addMyBooksCollectionView.reloadData()
+        addMyBooksCollectionView.reloadData()
     }
 }
 
@@ -214,8 +342,8 @@ extension HomeViewController: BookDetailsViewControllerDelegate {
             } else {
                 try ProcessingBookJSON.shared.dislikedBook(book: book)
             }
-            homeView.addMyBooksCollectionView.reloadData()
-            
+            addMyBooksCollectionView.reloadData()
+
         } catch {
             print("Error updating like state: \(error)")
         }
