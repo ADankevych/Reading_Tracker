@@ -144,7 +144,14 @@ class TreeViewController: UIViewController {
     
     private func updateBooksReadLabel() {
         let numberOfBooks = ProcessingBookJSON.shared.gradedBooks().count
-        booksReadLabel.text = " \(numberOfBooks) books \n Yay🥳"
+        if numberOfBooks == 0 {
+            booksReadLabel.text = " \(numberOfBooks) book \n Looking like \n a lot of work to do😉 "
+        } else if numberOfBooks == 1{
+            booksReadLabel.text = " \(numberOfBooks) book \n Yay😍"
+        } else {
+            booksReadLabel.text = " \(numberOfBooks) books \n Yay🥳"
+
+        }
         booksReadLabel.font = .boldSystemFont(ofSize: 32)
     }
 
