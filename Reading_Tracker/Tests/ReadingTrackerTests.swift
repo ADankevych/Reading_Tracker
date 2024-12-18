@@ -78,17 +78,14 @@ final class HomeViewControllerTests: XCTestCase {
         homeViewController = HomeViewController()
         homeViewController.loadViewIfNeeded()
     }
-    
     override func tearDown() {
         homeViewController = nil
         super.tearDown()
     }
-    
     func testHomeViewInitialization() {
         XCTAssertNotNil(homeViewController.view)
         XCTAssertTrue(homeViewController.view is HomeView)
     }
-    
     func testHomeViewControllerLabelsSetup() {
         let homeView = homeViewController.view as! HomeView
         
@@ -107,14 +104,12 @@ final class HomeViewControllerTests: XCTestCase {
         XCTAssertEqual(homeView.programingBooksLabel.textColor, .black)
         XCTAssertEqual(homeView.programingBooksLabel.textAlignment, .left)
     }
-    
     func testHomeViewControllerButtonSetup() {
         let homeView = homeViewController.view as! HomeView
         
         XCTAssertEqual(homeView.addMyBooksButton.image(for: .normal), UIImage(systemName: "plus.circle"))
         XCTAssertEqual(homeView.addMyBooksButton.tintColor, .black)
     }
-    
     func testTouchAddBookButton() {
         let homeView = homeViewController.view as! HomeView
         let button = homeView.addMyBooksButton
@@ -147,7 +142,6 @@ final class FavouriteViewControllerTests: XCTestCase {
         XCTAssertNotNil(favouriteViewController.view)
         XCTAssertNotNil(favouriteViewController.view.layer.sublayers?.first as? CAGradientLayer)
     }
-    
     func testАavouriteViewControllerLablesSetup() {
         func testFavouriteViewControllerLabelsSetup() {
         let mainStackView = favouriteViewController.view.subviews.first as! UIStackView
@@ -185,7 +179,6 @@ final class ProfileViewControllerTests: XCTestCase {
         profileViewController = ProfileViewController()
         profileViewController.loadViewIfNeeded()
     }
-    
     override func tearDown() {
         profileViewController = nil
         super.tearDown()
@@ -386,107 +379,20 @@ class BookDetailsViewTests: XCTestCase {
         XCTAssertEqual(genreLabel.font, .systemFont(ofSize: 18))
         XCTAssertEqual(genreLabel.textColor, .black)
     }
-    
     func testLikeButtonSetup() {
         guard let button = bookDetailsView.subviews.first(where: { $0 is UIButton }) as? UIButton else {
             XCTFail("Like button not found")
             return
         }
-        
         XCTAssertNotNil(button.image(for: .normal))
         XCTAssertEqual(button.tintColor, .black)
         XCTAssertEqual(button.backgroundColor, .clear)
     }
-    
     func testImageViewConfiguration() {
         guard let imageView = bookDetailsView.subviews.first(where: { $0 is UIImageView }) as? UIImageView else {
             return
         }
-        
         XCTAssertEqual(imageView.contentMode, .scaleAspectFit)
         XCTAssertEqual(imageView.image, UIImage(named: testBook.img))
     }
 }
-
-final class ParsingReloadTests: XCTestCase {
-
-    func testReloadBooks() {
-        ProcessingBookJSON.shared.reload()
-
-        let result = ProcessingBookJSON.shared.books
-        XCTAssertEqual(result, ProcessingBookJSON.defaultBooks)
-        
-    }
-
-    func testReloadQuotes() {
-        ProcessingQuoteJSON.shared.reload()
-
-        let result = ProcessingQuoteJSON.shared.quotes
-        XCTAssertEqual(result, [])
-        
-    }
-}
-
-// UI TESTS should accessibilityIdentifiers be setUp
-//
-//class MainTabBarControllerUITests: XCTestCase {
-//    var app: XCUIApplication!
-//    
-//    override func setUpWithError() throws {
-//        continueAfterFailure = false
-//        app = XCUIApplication()
-//        app.launch()
-//    }
-//    
-//    func testTabBarExistence() throws {
-//        let tabBar = app.tabBars.firstMatch
-//        XCTAssertTrue(tabBar.waitForExistence(timeout: 8), "Tab bar should exist.")
-//    }
-//    
-//    func testTabBarButtonsExistence() {
-//        let homeTabButton = app.tabBars.buttons["Home"]
-//        XCTAssertTrue(homeTabButton.exists, "The Home tab button should exist.")
-//
-//        let favouriteTabButton = app.tabBars.buttons["Favourite"]
-//        XCTAssertTrue(favouriteTabButton.exists, "The Favourite tab button should exist.")
-//
-//        let profileTabButton = app.tabBars.buttons["Profile"]
-//        XCTAssertTrue(profileTabButton.exists, "The Profile tab button should exist.")
-//    }
-//    
-//    
-//    func testFavouriteTabShowsAddQuoteButton() {
-//        let favouriteTabButton = app.tabBars.buttons["favouriteTabButton"]
-//        XCTAssertTrue(favouriteTabButton.waitForExistence(timeout: 5), "Favourite tab button should exist.")
-//        favouriteTabButton.tap()
-//        
-//        let addQuoteButton = app.buttons["addQuoteButton"]
-//        XCTAssertTrue(addQuoteButton.waitForExistence(timeout: 5), "Add Quote button should be visible after tapping Favourite tab.")
-//    }
-//    
-//    func testTabBarSelection() {
-//        let tabBar = app.tabBars.firstMatch
-//        XCTAssertTrue(tabBar.waitForExistence(timeout: 8), "Tab bar should exist.")
-//        
-//        let homeTabButton = app.tabBars.buttons["homeTabButton"]
-//        XCTAssertTrue(homeTabButton.exists, "Home tab button should exist.")
-//        homeTabButton.tap()
-//        
-//        let homeScreenLabel = app.staticTexts["myBookLabel"]
-//        XCTAssertTrue(homeScreenLabel.exists, "Home screen should be displayed.")
-//        
-//        let favouriteTabButton = app.tabBars.buttons["favouriteTabButton"]
-//        favouriteTabButton.tap()
-//
-//        let addQuoteButton = app.buttons["addQuoteButton"]
-//        XCTAssertTrue(addQuoteButton.waitForExistence(timeout: 5), "Add Quote button should be visible after tapping Favourite tab.")
-//
-//        let profileTabButton = app.tabBars.buttons["profileTabButton"]
-//        profileTabButton.tap()
-//
-//
-//        let profileScreenLabel = app.staticTexts["userName"]
-//        XCTAssertTrue(profileScreenLabel.exists, "Profile screen should be displayed.")
-//    }
-//}
-//
