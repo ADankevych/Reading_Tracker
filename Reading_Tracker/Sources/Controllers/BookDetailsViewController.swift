@@ -22,7 +22,7 @@ class BookDetailsViewController: UIViewController {
         self.book = book
         self.bookDetailsView = BookDetailsView(book: book)
         super.init(nibName: nil, bundle: nil)
-        self.bookDetailsView.delegate = self
+        bookDetailsView.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -59,6 +59,7 @@ extension BookDetailsViewController: BookDetailsViewDelegate {
             print("Error saving like state: \(error)")
         }
 
+        bookDetailsView.updateLikeButtonAppearance(isLiked: book.like)
         delegate?.didUpdateLikeState(for: book)
 
         if !book.like {
