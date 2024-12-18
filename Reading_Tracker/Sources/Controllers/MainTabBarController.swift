@@ -89,24 +89,3 @@ extension UITabBar {
         return sizeThatFits
     }
 }
-
-#if DEBUG
-
-struct MainTabBarControllerPreview: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> MainTabBarController {
-        return MainTabBarController()
-    }
-
-    func updateUIViewController(_ uiViewController: MainTabBarController, context: Context) {
-        // No-op
-    }
-}
-
-struct MainTabBarController_Previews: PreviewProvider {
-    static var previews: some View {
-        MainTabBarControllerPreview()
-            .ignoresSafeArea()
-    }
-}
-
-#endif
