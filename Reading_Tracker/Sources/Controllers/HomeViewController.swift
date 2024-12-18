@@ -190,6 +190,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                                         indexPath: IndexPath) -> UICollectionViewCell {
        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BookCell", for: indexPath)
 
+       cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+
        let book = ProcessingBookJSON.shared.gradedBooks()[indexPath.item]
 
        let imageView = UIImageView()
