@@ -187,7 +187,7 @@ class AddBookViewController: UIViewController {
             print("Error adding new book: \(error)")
         }
         
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
 }
 
