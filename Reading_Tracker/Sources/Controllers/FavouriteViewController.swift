@@ -74,6 +74,9 @@ class FavouriteViewController: UIViewController {
         addQuoteButton.snp.makeConstraints {
             $0.width.height.equalTo(40)
         }
+        
+        do { try ProcessingQuoteJSON.shared.loadQuotes() } catch { }
+        quotesCollectionView.reloadData()
     }
 
     private func createCollectionView() -> UICollectionView {
