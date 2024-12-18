@@ -8,9 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol BookDetailsViewControllerDelegate: AnyObject {
+    func didUpdateLikeState(for book: Book)
+}
+
 class BookDetailsViewController: UIViewController {
     
     var book: Book
+    weak var delegate: BookDetailsViewControllerDelegate?
     
     private var isLiked: Bool = false
 
@@ -96,6 +101,11 @@ class BookDetailsViewController: UIViewController {
        setupView()
        setupLayout()
    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateLikeButtonAppearance()
+    }
     
     private func setupView() {
         view.addSubview(bookImageView)
@@ -215,11 +225,28 @@ class BookDetailsViewController: UIViewController {
     }
 
     @objc private func likeButtonTapped() {
-        isLiked.toggle()
-        book.like = isLiked
+        do {
+            if book.like {
+                book.like = false
+                try ProcessingBookJSON.shared.dislikedBook(book: book)
+            } else {
+                book.like = true
+                try ProcessingBookJSON.shared.likedBook(book: book)
+            }
+            print("Book is now \(book.like ? "liked" : "unliked") and saved successfully.")
+        } catch {
+            print("Error saving like state: \(error)")
+        }
+
+        isLiked = book.like
         updateLikeButtonAppearance()
-        print("Book is now \(isLiked ? "liked" : "unliked")")
+        delegate?.didUpdateLikeState(for: book)
+
+        if !book.like {
+            navigationController?.popViewController(animated: true)
+        }
     }
+
 
     private func updateStarButtons() {
         for (index, button) in starButtons.enumerated() {
@@ -228,11 +255,11 @@ class BookDetailsViewController: UIViewController {
     }
 
     private func updateLikeButtonAppearance() {
-        let imageName = isLiked ? "heart.fill" : "heart"
+        let imageName = book.like ? "heart.fill" : "heart"
         let image = UIImage(systemName: imageName)?.withConfiguration(
             UIImage.SymbolConfiguration(pointSize: 40, weight: .regular))
         likeButton.setImage(image, for: .normal)
-        likeButton.tintColor = isLiked ? .red : .black
+        likeButton.tintColor = book.like ? .red : .black
     }
 
     private func setupBackground() {
